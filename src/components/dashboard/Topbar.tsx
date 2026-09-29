@@ -9,32 +9,38 @@ import {
   Plus, 
   FileUp, 
   Download, 
-  CheckCircle2,
+  CheckCircle2, 
+  Edit3, 
   Sparkles,
-  Layers
+  FolderPlus
 } from 'lucide-react';
-import { mockProjects } from '@/lib/mockData';
 import { Project } from '@/lib/types';
+import { useProjects } from '@/context/ProjectContext';
 
 interface TopbarProps {
   currentProject: Project;
   onSelectProject: (p: Project) => void;
   onOpenBC3Modal?: () => void;
+  onOpenEditModal?: () => void;
+  onOpenCreateModal?: () => void;
 }
 
 export const Topbar: React.FC<TopbarProps> = ({
   currentProject,
   onSelectProject,
   onOpenBC3Modal,
+  onOpenEditModal,
+  onOpenCreateModal,
 }) => {
+  const { projects } = useProjects();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
   return (
     <header className="h-20 bg-white/95 backdrop-blur-md border-b border-slate-200 px-6 flex items-center justify-between sticky top-0 z-30 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
       
-      {/* Left Project Switcher */}
-      <div className="flex items-center gap-4">
+      {/* Left Project Switcher & Editor Button */}
+      <div className="flex items-center gap-3">
         
         <div className="relative">
           <button
@@ -57,12 +63,27 @@ export const Topbar: React.FC<TopbarProps> = ({
 
           {/* Projects Dropdown */}
           {dropdownOpen && (
-            <div className="absolute top-full left-0 mt-2 w-80 rounded-2xl bg-white border border-slate-200 shadow-xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-              <div className="px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
-                Cambiar de Proyecto Activo
+            <div className="absolute top-full left-0 mt-2 w-84 rounded-2xl bg-white border border-slate-200 shadow-xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="px-3 py-2 flex items-center justify-between border-b border-slate-100">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                  Cartera de Obras ({projects.length})
+                </span>
+                {onOpenCreateModal && (
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      onOpenCreateModal();
+                    }}
+                    className="text-[11px] text-brand-700 hover:text-brand-800 font-bold flex items-center gap-1"
+                  >
+                    <Plus className="w-3 h-3" />
+                    <span>Nueva Obra</span>
+                  </button>
+                )}
               </div>
-              <div className="space-y-1 mt-1">
-                {mockProjects.map((proj) => (
+
+              <div className="space-y-1 mt-1 max-h-64 overflow-y-auto">
+                {projects.map((proj) => (
                   <button
                     key={proj.id}
                     onClick={() => {
@@ -85,14 +106,41 @@ export const Topbar: React.FC<TopbarProps> = ({
                   </button>
                 ))}
               </div>
+
+              {onOpenCreateModal && (
+                <div className="pt-2 mt-1 border-t border-slate-100">
+                  <button
+                    onClick={() => {
+                      setDropdownOpen(false);
+                      onOpenCreateModal();
+                    }}
+                    className="w-full py-2 px-3 rounded-xl bg-brand-50 hover:bg-brand-100 text-brand-800 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors border border-brand-200"
+                  >
+                    <FolderPlus className="w-3.5 h-3.5 text-brand-700" />
+                    <span>+ Añadir Mi Propio Proyecto</span>
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
 
+        {/* Quick Edit Project Button */}
+        {onOpenEditModal && (
+          <button
+            onClick={onOpenEditModal}
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:text-brand-800 hover:border-brand-300 transition-all shadow-sm"
+            title="Editar datos de la obra activa"
+          >
+            <Edit3 className="w-3.5 h-3.5 text-brand-700" />
+            <span className="hidden md:inline">Editar Obra</span>
+          </button>
+        )}
+
         {/* Status indicator */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600">
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600">
           <span className="w-2 h-2 rounded-full bg-emerald-500" />
-          <span>Avance Físico: <strong className="text-slate-900">{currentProject.progressPercentage}%</strong></span>
+          <span>Avance: <strong className="text-slate-900">{currentProject.progressPercentage}%</strong></span>
         </div>
       </div>
 

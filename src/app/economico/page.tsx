@@ -11,28 +11,40 @@ import {
   Download, 
   Layers,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Edit3
 } from 'lucide-react';
-import { mockChapters, mockThreeAxisData, mockProjects } from '@/lib/mockData';
+import { mockChapters, mockThreeAxisData } from '@/lib/mockData';
 import { formatCurrency, formatPercent } from '@/lib/utils';
 import { SCurveChart } from '@/components/dashboard/SCurveChart';
+import { useProjects } from '@/context/ProjectContext';
 
 export default function EconomicoPage() {
-  const project = mockProjects[0];
+  const { currentProject: project, setIsEditModalOpen } = useProjects();
 
-  // Totals
-  const totalPV = mockChapters.reduce((acc, c) => acc + c.plannedTotal, 0);
-  const totalAC = mockChapters.reduce((acc, c) => acc + c.realTotalCost, 0);
-  const totalEV = mockChapters.reduce((acc, c) => acc + c.certifiedTotal, 0);
+  // Dynamic values based on active project
+  const totalPV = project.plannedBudget;
+  const totalAC = project.actualCost;
+  const totalEV = project.certifiedAmount;
   
   const costVariance = totalEV - totalAC; // Positive is good (earned more than spent)
-  const scheduleVariance = totalEV - totalPV; // Positive is ahead of schedule
+  const scheduleVariance = totalEV - totalPV; 
   const cpi = totalAC > 0 ? (totalEV / totalAC) : 1;
   const spi = totalPV > 0 ? (totalEV / totalPV) : 1;
 
   // Forecast at completion (EAC)
-  const eac = project.plannedBudget / cpi;
+  const eac = cpi > 0 ? project.plannedBudget / cpi : project.plannedBudget;
   const vac = project.plannedBudget - eac; // Savings at completion
+
+  const dynamicThreeAxisData = mockThreeAxisData.map((d) => {
+    const ratio = project.plannedBudget / 3850000;
+    return {
+      period: d.period,
+      pv: Math.round(d.pv * ratio),
+      ac: Math.round(d.ac * ratio * (project.actualCost / (2140000 * ratio || 1))),
+      ev: Math.round(d.ev * ratio * (project.certifiedAmount / (2380000 * ratio || 1))),
+    };
+  });
 
   return (
     <div className="space-y-6">
@@ -49,17 +61,27 @@ export default function EconomicoPage() {
             </h1>
           </div>
           <p className="text-xs text-slate-500 mt-1">
-            Matriz comparativa de Presupuesto Previsto (PV), Coste Real Ejecutado (AC) y Valor Certificado (EV) con cálculo de Valor Ganado.
+            Matriz de <strong className="text-slate-800">{project.name}</strong> ({project.code}): Presupuesto Previsto (PV), Coste Real Ejecutado (AC) y Valor Certificado (EV).
           </p>
         </div>
 
-        <button
-          onClick={() => alert('Exportando Informe Económico Ejecutivo en PDF para la Dirección...')}
-          className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors shadow-sm"
-        >
-          <Download className="w-3.5 h-3.5 text-brand-700" />
-          <span>Exportar Informe Económico PDF</span>
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setIsEditModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-brand-50 hover:bg-brand-100/80 border border-brand-200 text-xs font-bold text-brand-800 transition-colors shadow-sm"
+          >
+            <Edit3 className="w-3.5 h-3.5" />
+            <span>Ajustar Métricas</span>
+          </button>
+
+          <button
+            onClick={() => alert('Exportando Informe Económico Ejecutivo en PDF para la Dirección...')}
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 transition-colors shadow-sm"
+          >
+            <Download className="w-3.5 h-3.5 text-brand-700" />
+            <span>Exportar Informe PDF</span>
+          </button>
+        </div>
       </div>
 
       {/* EVM Key Metrics Strip */}
@@ -91,7 +113,7 @@ export default function EconomicoPage() {
             <ArrowUpRight className="w-5 h-5 text-blue-600" />
           </div>
           <p className="text-[11px] text-slate-500">
-            Ritmo de ejecución <strong className="text-slate-900">ligeramente adelantado</strong> al calendario.
+            Ritmo de ejecución <strong className="text-slate-900">{spi >= 1 ? 'adelantado' : 'con leve desfase'}</strong> al calendario.
           </p>
         </div>
 
@@ -101,8 +123,8 @@ export default function EconomicoPage() {
             <span>Desviación en Costes (CV)</span>
             <span className="text-[10px] font-mono font-bold text-slate-400">EV - AC</span>
           </div>
-          <div className="text-2xl font-extrabold text-emerald-700 font-mono">
-            +{formatCurrency(costVariance)}
+          <div className={`text-2xl font-extrabold font-mono ${costVariance >= 0 ? 'text-emerald-700' : 'text-rose-600'}`}>
+            {costVariance >= 0 ? `+${formatCurrency(costVariance)}` : formatCurrency(costVariance)}
           </div>
           <p className="text-[11px] text-slate-500">
             Margen neto directo devengado a favor de la constructora.
@@ -119,20 +141,20 @@ export default function EconomicoPage() {
             {formatCurrency(eac)}
           </div>
           <p className="text-[11px] text-emerald-700 font-semibold">
-            Ahorro proyectado de +{formatCurrency(vac)}
+            {vac >= 0 ? `Ahorro proyectado de +${formatCurrency(vac)}` : `Desviación prevista de ${formatCurrency(vac)}`}
           </p>
         </div>
 
       </div>
 
       {/* S-Curve Graph */}
-      <SCurveChart data={mockThreeAxisData} />
+      <SCurveChart data={dynamicThreeAxisData} />
 
       {/* 3-Axes Chapter Matrix Table */}
       <div className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-sm">
         <div className="p-4 bg-slate-50/80 border-b border-slate-200 flex items-center justify-between">
           <span className="text-xs font-bold text-slate-900 uppercase tracking-wider">
-            Matriz Analítica de 3 Ejes por Capítulo de Obra
+            Matriz Analítica de 3 Ejes por Capítulo de Obra ({project.name})
           </span>
           <span className="text-xs text-slate-500 font-mono">Cifras en Euros (€)</span>
         </div>
@@ -151,21 +173,25 @@ export default function EconomicoPage() {
             </thead>
             <tbody className="divide-y divide-slate-100">
               {mockChapters.map((ch) => {
-                const diff = ch.certifiedTotal - ch.realTotalCost;
-                const margin = ch.certifiedTotal > 0 ? (diff / ch.certifiedTotal) * 100 : 0;
+                const ratio = project.plannedBudget / 3850000;
+                const chPV = Math.round(ch.plannedTotal * ratio);
+                const chAC = Math.round(ch.realTotalCost * ratio * (project.actualCost / (2140000 * ratio || 1)));
+                const chEV = Math.round(ch.certifiedTotal * ratio * (project.certifiedAmount / (2380000 * ratio || 1)));
+                const diff = chEV - chAC;
+                const margin = chEV > 0 ? (diff / chEV) * 100 : 0;
                 return (
                   <tr key={ch.id} className="hover:bg-slate-50/60 text-slate-700">
                     <td className="p-4 font-sans font-bold text-slate-900">
                       {ch.name}
                     </td>
                     <td className="p-4 text-right text-slate-600">
-                      {formatCurrency(ch.plannedTotal)}
+                      {formatCurrency(chPV)}
                     </td>
                     <td className="p-4 text-right text-rose-600 font-semibold">
-                      {formatCurrency(ch.realTotalCost)}
+                      {formatCurrency(chAC)}
                     </td>
                     <td className="p-4 text-right text-brand-800 font-semibold">
-                      {formatCurrency(ch.certifiedTotal)}
+                      {formatCurrency(chEV)}
                     </td>
                     <td className="p-4 text-right text-emerald-700 font-bold">
                       +{formatCurrency(diff)}
@@ -179,13 +205,13 @@ export default function EconomicoPage() {
             </tbody>
             <tfoot>
               <tr className="bg-slate-50 border-t-2 border-slate-200 font-bold text-slate-900 text-xs">
-                <td className="p-4 font-sans">TOTALES CONSOLIDADOS</td>
+                <td className="p-4 font-sans">TOTALES CONSOLIDADOS ({project.code})</td>
                 <td className="p-4 text-right text-slate-700">{formatCurrency(totalPV)}</td>
                 <td className="p-4 text-right text-rose-600">{formatCurrency(totalAC)}</td>
                 <td className="p-4 text-right text-brand-800">{formatCurrency(totalEV)}</td>
                 <td className="p-4 text-right text-emerald-700 font-mono">+{formatCurrency(costVariance)}</td>
                 <td className="p-4 text-right text-emerald-700 font-mono">
-                  {((costVariance / totalEV) * 100).toFixed(1)}%
+                  {((costVariance / (totalEV || 1)) * 100).toFixed(1)}%
                 </td>
               </tr>
             </tfoot>
