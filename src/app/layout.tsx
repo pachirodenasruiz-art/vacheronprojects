@@ -21,9 +21,6 @@ export default function RootLayout({
       <head>
         <title>Vacheron Projects | Portal SaaS de Gestión de Obras</title>
         <meta name="description" content="Plataforma SaaS Cloud de gestión integral, control presupuestario a 3 ejes, planificación Gantt y facturación Veri*Factu." />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-screen bg-[#070b14] text-slate-100 font-sans antialiased selection:bg-amber-500/20 selection:text-amber-300">
         <div className="flex h-screen overflow-hidden bg-[#070b14] text-slate-100 font-sans">
