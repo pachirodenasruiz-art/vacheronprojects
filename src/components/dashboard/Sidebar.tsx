@@ -13,60 +13,59 @@ import {
   TrendingUp, 
   FileCheck2, 
   Code2, 
-  Settings, 
-  LogOut, 
-  ShieldCheck, 
-  ChevronRight,
-  Sparkles,
-  Home
+  ShieldCheck,
+  CheckCircle2,
+  FolderKanban,
+  SlidersHorizontal,
+  HelpCircle
 } from 'lucide-react';
 
 const navItems = [
   {
     name: 'Visión General',
-    href: '/app',
+    href: '/',
     icon: LayoutDashboard,
     badge: null,
   },
   {
     name: 'Estudios & Presupuestos',
-    href: '/app/presupuestos',
+    href: '/presupuestos',
     icon: Calculator,
     badge: 'BC3',
   },
   {
     name: 'Planificador Gantt',
-    href: '/app/planificacion',
+    href: '/planificacion',
     icon: CalendarRange,
     badge: null,
   },
   {
     name: 'Ejecución & Mediciones',
-    href: '/app/ejecucion',
+    href: '/ejecucion',
     icon: HardHat,
     badge: 'Campo',
   },
   {
     name: 'Compras & Almacén',
-    href: '/app/compras',
+    href: '/compras',
     icon: Truck,
     badge: null,
   },
   {
     name: 'Control Económico (3 Ejes)',
-    href: '/app/economico',
+    href: '/economico',
     icon: TrendingUp,
     badge: 'CPI/SPI',
   },
   {
     name: 'Facturación & Veri*Factu',
-    href: '/app/facturacion',
+    href: '/facturacion',
     icon: FileCheck2,
     badge: 'AEAT',
   },
   {
     name: 'API REST & Docs',
-    href: '/app/api-docs',
+    href: '/api-docs',
     icon: Code2,
     badge: 'v1.0',
   },
@@ -80,7 +79,7 @@ export const Sidebar: React.FC = () => {
       
       {/* Brand Header */}
       <div className="h-20 px-6 flex items-center justify-between border-b border-slate-800/80">
-        <Link href="/app" className="flex items-center gap-2.5">
+        <Link href="/" className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center shadow-md shadow-amber-500/20">
             <Building2 className="w-5 h-5 text-slate-950 stroke-[2.3]" />
           </div>
@@ -89,7 +88,7 @@ export const Sidebar: React.FC = () => {
               VACHERON
             </span>
             <span className="text-[10px] tracking-wider uppercase text-amber-400 font-semibold mt-0.5">
-              Projects Cloud
+              Projects Cloud ERP
             </span>
           </div>
         </Link>
@@ -131,26 +130,23 @@ export const Sidebar: React.FC = () => {
         })}
       </div>
 
-      {/* Bottom User / Compliance Badge */}
+      {/* Bottom Status & System Info */}
       <div className="p-4 border-t border-slate-800/80 space-y-3 bg-slate-950/50">
         
         {/* Veri*Factu Status Indicator */}
         <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between text-[11px]">
           <div className="flex items-center gap-2 text-emerald-400 font-semibold">
             <ShieldCheck className="w-4 h-4" />
-            <span>Veri*Factu Activo</span>
+            <span>Veri*Factu SIF Activo</span>
           </div>
           <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
         </div>
 
-        {/* Return to Public Website */}
-        <Link
-          href="/"
-          className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-medium text-slate-400 hover:text-white hover:bg-slate-850 transition-colors border border-slate-800"
-        >
-          <Home className="w-3.5 h-3.5" />
-          <span>Volver a la Web Pública</span>
-        </Link>
+        {/* Cloud Sync Status */}
+        <div className="px-2 text-[10px] text-slate-400 flex items-center justify-between">
+          <span>Servidor Cloud UE:</span>
+          <span className="text-emerald-400 font-mono font-semibold">Online (42ms)</span>
+        </div>
       </div>
 
     </aside>
