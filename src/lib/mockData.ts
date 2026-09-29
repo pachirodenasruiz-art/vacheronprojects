@@ -20,7 +20,7 @@ export const mockProjects: Project[] = [
     name: 'Edificio Residencial Castellana Skyline',
     client: 'Metrópolis Promociones Inmobiliarias S.A.',
     location: 'Paseo de la Castellana 214, Madrid',
-    manager: 'Arq. Carlos Mendoza (Jefe de Obra)',
+    manager: 'Arq. Miguel Ángel Rodenas (Construction Manager)',
     type: 'Residencial',
     status: 'en_curso',
     startDate: '2024-09-01',

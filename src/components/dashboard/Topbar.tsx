@@ -148,11 +148,11 @@ export const Topbar: React.FC<TopbarProps> = ({
         {/* User Profile */}
         <div className="flex items-center gap-2.5 pl-2 border-l border-slate-200">
           <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-700 to-brand-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
-            CM
+            MR
           </div>
           <div className="hidden lg:flex flex-col">
-            <span className="text-xs font-bold text-slate-900 leading-tight">Carlos Mendoza</span>
-            <span className="text-[10px] text-slate-500 font-medium">Jefe de Obra / PM</span>
+            <span className="text-xs font-bold text-slate-900 leading-tight">Miguel Ángel Rodenas</span>
+            <span className="text-[10px] text-brand-800 font-semibold">Construction Manager</span>
           </div>
         </div>
 
