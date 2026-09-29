@@ -17,13 +17,14 @@ export default function RootLayout({
   const [isBC3ModalOpen, setIsBC3ModalOpen] = useState(false);
 
   return (
-    <html lang="es" className="dark scroll-smooth">
+    <html lang="es" className="scroll-smooth">
       <head>
         <title>Vacheron Projects | Portal SaaS de Gestión de Obras</title>
         <meta name="description" content="Plataforma SaaS Cloud de gestión integral, control presupuestario a 3 ejes, planificación Gantt y facturación Veri*Factu." />
+        <link rel="icon" href="/vacheron-logo.jpg" />
       </head>
-      <body className="min-h-screen bg-[#070b14] text-slate-100 font-sans antialiased selection:bg-amber-500/20 selection:text-amber-300">
-        <div className="flex h-screen overflow-hidden bg-[#070b14] text-slate-100 font-sans">
+      <body className="min-h-screen bg-[#f8fafc] text-slate-800 font-sans antialiased selection:bg-brand-100 selection:text-brand-900">
+        <div className="flex h-screen overflow-hidden bg-[#f8fafc] text-slate-800 font-sans">
           
           {/* Fixed Left Navigation Sidebar */}
           <Sidebar />
