@@ -269,7 +269,7 @@ CREDS = '''<section aria-label="Datos de la empresa">
     <div class="wrap" style="margin-top:clamp(56px,7vw,96px)">
       <div class="creds">
         <div class="creds-grid">
-          <div class="cred"><strong class="num">2004</strong><span>construyendo, reformando y promoviendo</span></div>
+          <div class="cred"><strong class="num">1990</strong><span>construyendo, primero como Servicasa y hoy como Vacheron Projects</span></div>
           <div class="cred"><strong class="num">38</strong><span>trabajos publicados en nuestro portafolio</span></div>
           <div class="cred"><strong class="num">6</strong><span>especialidades bajo un mismo equipo</span></div>
           <div class="cred"><strong class="num">2</strong><span>oficinas, Albacete y Alicante, y proyectos en toda España</span></div>
@@ -413,23 +413,39 @@ OFFICES = '''<div class="offices2">
     <article><p class="label">Sede central</p><h3>Albacete</h3><p>Marqués de Villores, 34<br>02003 Albacete</p></article>
     <article><p class="label">Oficina</p><h3>Alicante</h3><p>Colón, 21<br>03001 Alicante</p></article>
   </div>'''
+TIMELINE = [
+  ('1990', 'Nace Servicasa', 'Empezamos en Albacete como empresa de construcción y servicios para el hogar.'),
+  ('1995', 'Piscinas', 'Construcción y rehabilitación de piscinas privadas, comunitarias y municipales.'),
+  ('2000', 'Locales comerciales', 'Tiendas, hostelería, clínicas y franquicias para empresas en expansión.'),
+  ('2007', 'Obra pública', 'Instalaciones deportivas y edificios de uso colectivo, como la piscina municipal de El Bonillo.'),
+  ('2015', 'Gestión de proyectos', 'Coordinamos técnicos, licencias y gremios con un único responsable.'),
+  ('2016', 'Nace Vacheron Projects', 'Servicasa se convierte en Vacheron Projects.'),
+  ('2018', 'Promoción inmobiliaria', 'Promovemos nuestras propias viviendas y adosados.'),
+  ('2019', 'Vivienda personalizada', 'Construcción de viviendas unifamiliares a medida, nuestra especialidad.'),
+  ('2022', 'Naves industriales', 'Ampliamos nuestra actividad a la construcción industrial.'),
+  ('2025', 'Oficina en Alicante', 'Abrimos oficina en la calle Colón, 21 de Alicante.'),
+]
+TIMELINE_HTML = f'''<section class="section" style="padding-top:0" aria-labelledby="tl-h"><div class="wrap">{head('Nuestra trayectoria', 'Más de treinta años <em>construyendo.</em>')}
+<ol class="timeline">{''.join(f'<li><span class="y">{y}</span><h3>{t}</h3><p>{d}</p></li>' for y, t, d in TIMELINE)}</ol></div></section>'''
 body = phero([('Nosotros', None)], 'Pocas casas a la vez. <em>Todas con nombre propio.</em>',
-  'Somos promotora y constructora. Desde Albacete y Alicante diseñamos, construimos y gestionamos proyectos en toda España.',
+  'Somos una constructora especializada en viviendas unifamiliares personalizadas. Empezamos en 1990 como Servicasa y hoy, desde Albacete y Alicante, trabajamos en toda España.',
   cta=[('Empezar mi proyecto', 'contacto.html', 'btn-primary')], label='Nosotros')
 body += CREDS
 body += f'''<section class="section"><div class="wrap split">
   <div class="a"><p class="label f">Nuestra historia</p><h2>Construir como nos gustaría que construyeran <em>nuestra propia casa.</em></h2></div>
-  <div class="b prose"><p>Desde 2004 hemos acondicionado tiendas para marcas como Apple Premium Reseller, BodyBell o Marvimundo, construido y rehabilitado decenas de piscinas, levantado viviendas unifamiliares como Casa Kimun o Casa Córdoba y reformado por completo hogares en Alicante, Altea, Valencia y Albacete.</p>
-  <p>Hoy somos también promotores: desarrollamos residenciales como Santa Fiora en Albacete o Residencial Ifach en Alicante, y hemos participado en proyectos pioneros como la piscina comunitaria del primer edificio residencial Passivhaus de Castilla-La Mancha.</p>
+  <div class="b prose"><p>Nacimos en 1990 en Albacete con el nombre de Servicasa. Desde entonces nos hemos volcado en innovar en nuestros servicios y en la satisfacción de cada cliente, ofreciendo soluciones integrales de calidad en todas las fases de la construcción.</p>
+  <p>Empezamos con piscinas y locales comerciales, dimos el salto a la obra pública y a la gestión de proyectos y, en 2016, nos convertimos en Vacheron Projects. Hoy promovemos viviendas, construimos casas unifamiliares personalizadas y naves industriales, y desde 2025 tenemos oficina en Alicante.</p>
+  <p>Para empresas en expansión hacemos construcción y reforma de instalaciones comerciales, mobiliario comercial, promoción de adosados y construcción y rehabilitación de piscinas e instalaciones deportivas. Para particulares, reformas integrales o parciales y viviendas a medida.</p>
   <p>Quien invierte en su casa merece saber qué va a pagar, cuándo la va a recibir y con quién tiene que hablar. Por eso diseñamos y construimos con el mismo equipo.</p></div>
 </div></section>
+{TIMELINE_HTML}
 <section class="band section" id="metodo" aria-labelledby="met-h">{METODO.split('>', 1)[1]}
 <section class="section"><div class="wrap split">
   <div class="a"><p class="label f">Dónde estamos</p><h2>Dos oficinas. <em>Proyectos en toda España.</em></h2></div>
   <div class="b">{OFFICES}<p class="prose"><a href="empleo.html" class="link">¿Quieres trabajar con nosotros? Ver empleo</a></p></div>
 </div></section>
 {cta_band('¿Hablamos de <em>tu casa?</em>')}'''
-page('nosotros.html', 'Nosotros', 'Promotora y constructora con oficinas en Albacete y Alicante y proyectos en toda España desde 2004.', 'nosotros', body)
+page('nosotros.html', 'Nosotros', 'Constructora especializada en viviendas unifamiliares personalizadas desde 1990, con oficinas en Albacete y Alicante.', 'nosotros', body)
 
 # ======================================================================
 # 3. SERVICIOS
@@ -545,7 +561,7 @@ counts = {k: sum(1 for w in WORKS if k in w['cats']) for k in CATS}
 filters = f'<button aria-pressed="true" data-f="all">Todos <span>{len(WORKS)}</span></button>' + ''.join(
     f'<button aria-pressed="false" data-f="{k}">{v} <span>{counts[k]}</span></button>' for k, v in CATS.items() if counts[k])
 body = phero([('Trabajos', None)], 'Cada proyecto cuenta <em>su propia historia.</em>',
-  f'{len(WORKS)} trabajos desde 2004: viviendas, reformas integrales, piscinas, locales comerciales y promociones.', label='Trabajos')
+  f'Una selección de {len(WORKS)} trabajos: viviendas, reformas integrales, piscinas, locales comerciales y promociones.', label='Trabajos')
 body += f'''<section class="section" style="padding-top:clamp(16px,2vw,24px)"><div class="wrap">
 <div class="filters" role="group" aria-label="Filtrar trabajos">{filters}</div>
 <div class="work-grid three">{''.join(work_card(w, lazy=i > 5) for i, w in enumerate(WORKS))}</div>
@@ -709,7 +725,7 @@ body = phero([('Inversores', None)], 'Invertir en vivienda <em>bien construida.<
   'Promovemos residenciales de pocas viviendas con control total del proceso: suelo, diseño, construcción y venta, bajo un mismo equipo.',
   cta=[('Contactar como inversor', '#inv-form', 'btn-primary')], image=ifimg('solarium', 'Residencial Ifach, solárium', 'pimg', lazy=False), label='Inversores')
 body += f'''<section class="section"><div class="wrap">{head('Por qué Vacheron', 'Control del proceso, <em>de principio a fin.</em>', 'Como promotores y constructores a la vez, controlamos los dos riesgos que más afectan a una promoción: el coste y el plazo.')}
-<div class="benefits"><div class="benefit"><h3>Promotor y constructor</h3><p>Sin márgenes intermedios ni dependencia de constructoras externas.</p></div><div class="benefit"><h3>Trayectoria</h3><p>Desde 2004 en construcción, y promociones como Santa Fiora (Albacete) y Residencial Ifach (Alicante).</p></div><div class="benefit"><h3>Transparencia</h3><p>Información periódica del avance de obra, costes y comercialización.</p></div></div></div></section>
+<div class="benefits"><div class="benefit"><h3>Promotor y constructor</h3><p>Sin márgenes intermedios ni dependencia de constructoras externas.</p></div><div class="benefit"><h3>Trayectoria</h3><p>Desde 1990 en construcción, y promociones como Santa Fiora (Albacete) y Residencial Ifach (Alicante).</p></div><div class="benefit"><h3>Transparencia</h3><p>Información periódica del avance de obra, costes y comercialización.</p></div></div></div></section>
 <section class="section" style="padding-top:0"><div class="wrap promo-band">
   <a class="promo-img" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Residencial Ifach')}<span class="badge">En venta</span></a>
   <div class="promo-text"><p class="label f">Promoción en curso</p><h2>Residencial Ifach</h2><p class="lead">12 viviendas en San Agustín, Alicante, con zonas comunes y aerotermia.</p><div class="ctas"><a href="promocion-residencial-ifach.html" class="btn btn-ghost">Ver la promoción <span class="arr" aria-hidden="true">→</span></a></div></div>
