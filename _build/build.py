@@ -19,7 +19,7 @@ BASE_CSS = between(SRC, '<style>', '</style>')[len('<style>'):]
 ICONS = between(SRC, '<!-- Iconos de redes sociales -->', '<!-- Escenas ilustradas')
 CSS = BASE_CSS + open(os.path.join(HERE, 'extra.css'), encoding='utf-8').read()
 FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&family=Mulish:wght@400;500;600;700&display=swap">'
-PROTO = '<div class="proto"><p class="wrap">Prototipo de diseño · Las noticias, las ofertas de empleo y las cifras de ahorro energético son de ejemplo.</p></div>'
+PROTO = ''
 
 WA = 'https://wa.me/34628060560'
 
