@@ -270,7 +270,7 @@ CREDS = '''<section aria-label="Datos de la empresa">
       <div class="creds">
         <div class="creds-grid">
           <div class="cred"><strong class="num">1990</strong><span>construyendo, primero como Servicasa y hoy como Vacheron Projects</span></div>
-          <div class="cred"><strong class="num">38</strong><span>trabajos publicados en nuestro portafolio</span></div>
+          <div class="cred"><strong class="num">+500</strong><span>piscinas construidas desde 1995</span></div>
           <div class="cred"><strong class="num">6</strong><span>especialidades bajo un mismo equipo</span></div>
           <div class="cred"><strong class="num">2</strong><span>oficinas, Albacete y Alicante, y proyectos en toda España</span></div>
         </div>
@@ -367,7 +367,7 @@ home = f'''
         <article class="service">
           <svg class="ico" viewBox="0 0 56 56" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M4 22h48v20H4z" stroke="#0B4A3D"/><path d="M10 31q4-3 8 0t8 0 8 0 8 0 8 0M40 22V10h6" stroke="#2A8F80"/></svg>
           <p class="label">Piscinas</p><h3>Agua como arquitectura.</h3>
-          <p>Privadas, comunitarias y municipales. Más de una decena de piscinas construidas o rehabilitadas en nuestro portafolio.</p>
+          <p>Privadas, comunitarias y municipales. Más de 500 piscinas construidas desde 1995.</p>
           <a href="servicio-piscinas.html" class="link">Diseñar mi piscina</a>
         </article>
         <article class="service">
@@ -469,9 +469,9 @@ SVC = {
    hash='reforma'),
  'piscinas': dict(photo=('piscina-desbordante-con-spa-jf', 0),
    h1='Agua <em>como arquitectura.</em>',
-   lead='Piscinas privadas, comunitarias y municipales: construcción nueva y rehabilitación integral.',
+   lead='Más de 500 piscinas construidas desde 1995: privadas, comunitarias y municipales, de obra nueva y rehabilitación integral.',
    intro=('Una piscina bien diseñada se integra, no se añade.', ['Construimos piscinas desbordantes, irregulares, ecológicas o con spa, y rehabilitamos vasos antiguos con hormigón gunitado, nuevos revestimientos y escaleras más accesibles.', 'También trabajamos para promotoras: hemos ejecutado piscinas comunitarias como Mirabueno II en Córdoba o la del primer residencial Passivhaus de Castilla-La Mancha, en Albacete.']),
-   benefits=[('Diseño integrado', 'Formas, coronaciones y playas que continúan la arquitectura de la casa.'), ('Rehabilitación', 'Devolvemos la vida a piscinas antiguas: gunitado, gresite, iluminación LED y accesibilidad.'), ('Equipamiento eficiente', 'Filtración con vidrio reciclado, electrólisis salina e iluminación LED.')],
+   benefits=[('Más de 500 piscinas', 'Treinta años construyendo piscinas: sabemos qué funciona y qué dura.'), ('Rehabilitación', 'Devolvemos la vida a piscinas antiguas: gunitado, gresite, iluminación LED y accesibilidad.'), ('Equipamiento eficiente', 'Filtración con vidrio reciclado, electrólisis salina e iluminación LED.')],
    includes=['Diseño y proyecto', 'Licencias', 'Excavación y vaso de hormigón gunitado', 'Revestimientos vítreos', 'Filtración y depuración', 'Iluminación LED', 'Coronación y playa', 'Puesta en marcha'],
    faq=[('¿Hacéis piscinas comunitarias?', 'Sí, para comunidades y promotoras, como Mirabueno II en Córdoba o Imaginalia en Albacete.'), ('¿Rehabilitáis piscinas antiguas?', 'Sí. Es uno de nuestros trabajos más habituales: gunitado, revestimiento, coronación, escaleras e iluminación.')],
    hash='piscina'),
@@ -530,7 +530,7 @@ for slug, name, group, short in SERVICES:
 <div class="b"><ul class="checklist">{''.join(f'<li>{i}</li>' for i in d['includes'])}</ul></div></div></section>'''
     ws = svc_works(slug)
     if ws:
-        body += f'''<section class="section" style="padding-top:0"><div class="wrap">{head('Trabajos de ' + name.lower(), f'{len(ws)} proyectos <em>ya entregados.</em>')}
+        body += f'''<section class="section" style="padding-top:0"><div class="wrap">{head('Trabajos de ' + name.lower(), 'Más de 500 piscinas <em>construidas.</em>' if slug == 'piscinas' else 'Algunos de nuestros <em>trabajos.</em>', f'Una selección de {len(ws)} piscinas de nuestro portafolio.' if slug == 'piscinas' else '')}
 <div class="work-grid three">{''.join(work_card(w) for w in ws[:6])}</div>
 <p style="margin-top:40px"><a href="trabajos.html#{[k for k, v in CAT_SERVICE.items() if v == slug][0]}" class="btn btn-ghost">Ver todos <span class="arr" aria-hidden="true">→</span></a></p></div></section>'''
     body += f'''<section class="section"><div class="wrap faq"><div class="faq-head"><p class="label f">Preguntas frecuentes</p><h2>Lo que nos <em>preguntan.</em></h2></div><div class="faq-list">{faq(d['faq'])}</div></div></section>'''
