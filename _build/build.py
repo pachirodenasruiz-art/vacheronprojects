@@ -18,7 +18,7 @@ def between(s, a, b):
 BASE_CSS = between(SRC, '<style>', '</style>')[len('<style>'):]
 ICONS = between(SRC, '<!-- Iconos de redes sociales -->', '<!-- Escenas ilustradas')
 CSS = BASE_CSS + open(os.path.join(HERE, 'extra.css'), encoding='utf-8').read()
-FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&family=Mulish:wght@400;500;600;700&display=swap">'
+FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap">'
 PROTO = ''
 
 WA = 'https://wa.me/34628060560'

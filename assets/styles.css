@@ -19,8 +19,8 @@
   --band-line:#1E554A;
   --on-green:#FFFFFF;
 
-  --f-display:"Raleway","Avenir Next","Century Gothic","Segoe UI",sans-serif;
-  --f-body:"Mulish","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-display:"Open Sans",Arial,Helvetica,sans-serif;
+  --f-body:"Open Sans",Arial,Helvetica,sans-serif;
 
   --s-hero:clamp(2.6rem,6.4vw,5.6rem);
   --s-h2:clamp(2rem,4vw,3.3rem);
