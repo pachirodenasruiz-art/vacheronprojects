@@ -205,9 +205,17 @@ def footer():
 </div>
 <div class="lb" id="lb" hidden><button class="lb-x" id="lb-x" aria-label="Cerrar">×</button><button class="lb-p" id="lb-p" aria-label="Anterior">‹</button><img id="lb-img" alt=""><button class="lb-n" id="lb-n" aria-label="Siguiente">›</button><p id="lb-c"></p></div>'''
 
+# Icono de la pestaña: el mismo isotipo que la web anterior
+ICON_LINKS = ('<link rel="icon" href="favicon.ico" sizes="any">\n'
+              '<link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">\n'
+              '<link rel="icon" type="image/png" sizes="96x96" href="assets/icons/favicon-96x96.png">\n'
+              '<link rel="icon" type="image/png" sizes="192x192" href="assets/icons/android-icon-192x192.png">\n'
+              '<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\n'
+              '<meta name="theme-color" content="#0F6B58">')
+
 PAGES = []
 def page(fname, title, desc, active, body, home=False):
-    head_meta = f'<meta name="description" content="{html.escape(desc)}">\n{FONTS}\n<link rel="stylesheet" href="assets/styles.css">'
+    head_meta = f'<meta name="description" content="{html.escape(desc)}">\n{ICON_LINKS}\n{FONTS}\n<link rel="stylesheet" href="assets/styles.css">'
     full_title = title if home else f'{title} · Vacheron Projects'
     body_html = f'{ICONS}{PROTO}\n{nav(active)}\n<main id="top">\n{body}\n</main>\n{footer()}\n<script src="assets/site.js"></script>\n'
     if home:  # la página principal del artefacto se envuelve sola en un esqueleto HTML
