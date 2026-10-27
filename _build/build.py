@@ -1000,10 +1000,12 @@ redirects = [
   {"source": BY['residencial-ifach']['old'], "destination": "/residencial-ifach/", "permanent": True},
   {"source": "/index.html", "destination": "/", "permanent": True},
 ]
+# Vercel añade la barra final antes de aplicar estas reglas, así que el origen va con barra
 for fname, pth in ROUTES.items():
-    if fname != 'index.html':
-        redirects.append({"source": '/' + fname[:-5], "destination": pth, "permanent": True})
-redirects.append({"source": "/trabajo-piscina-passivhaus", "destination": BY['piscina-comunitaria-passivhaus']['old'], "permanent": True})
+    src = '/' + fname[:-5] + '/'
+    if fname != 'index.html' and src != pth:
+        redirects.append({"source": src, "destination": pth, "permanent": True})
+redirects.append({"source": "/trabajo-piscina-passivhaus/", "destination": BY['piscina-comunitaria-passivhaus']['old'], "permanent": True})
 vercel = {"cleanUrls": True, "trailingSlash": True, "redirects": redirects,
           "headers": [{"source": "/assets/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=2592000"}]}]}
 open(os.path.join(OUT, 'vercel.json'), 'w', encoding='utf-8').write(json.dumps(vercel, ensure_ascii=False, indent=2) + '\n')
