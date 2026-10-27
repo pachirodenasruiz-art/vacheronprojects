@@ -1,4 +1,347 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/trabajos/pagina/:n",
+      "destination": "/trabajos/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajos/pagina/:n/",
+      "destination": "/trabajos/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajos/2025/11/19/residencial-ifach/",
+      "destination": "/residencial-ifach/",
+      "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/nosotros",
+      "destination": "/nosotros/",
+      "permanent": true
+    },
+    {
+      "source": "/servicios",
+      "destination": "/servicios/",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-construccion",
+      "destination": "/servicios/construccion/",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-reforma-integral",
+      "destination": "/servicios/reforma-integral/",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-piscinas",
+      "destination": "/servicios/piscinas/",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-gestion-proyectos",
+      "destination": "/servicios/proyectos/",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-locales-comerciales",
+      "destination": "/servicios/locales-comerciales/",
+      "permanent": true
+    },
+    {
+      "source": "/servicio-promocion-inmobiliaria",
+      "destination": "/servicios/promocion-inmobiliaria/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajos",
+      "destination": "/trabajos/",
+      "permanent": true
+    },
+    {
+      "source": "/promocion-residencial-ifach",
+      "destination": "/residencial-ifach/",
+      "permanent": true
+    },
+    {
+      "source": "/noticias",
+      "destination": "/noticias/",
+      "permanent": true
+    },
+    {
+      "source": "/noticia",
+      "destination": "/noticias/cuanto-cuesta-construir-una-vivienda-unifamiliar/",
+      "permanent": true
+    },
+    {
+      "source": "/inversores",
+      "destination": "/inversores/",
+      "permanent": true
+    },
+    {
+      "source": "/contacto",
+      "destination": "/contacto/",
+      "permanent": true
+    },
+    {
+      "source": "/empleo",
+      "destination": "/empleo/",
+      "permanent": true
+    },
+    {
+      "source": "/aviso-legal",
+      "destination": "/aviso-legal/",
+      "permanent": true
+    },
+    {
+      "source": "/proteccion-datos",
+      "destination": "/proteccion-de-datos/",
+      "permanent": true
+    },
+    {
+      "source": "/cookies",
+      "destination": "/politica-de-cookies/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-casa-grades",
+      "destination": "/trabajos/2026/06/04/casa-grades/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-comunitaria-passivhaus",
+      "destination": "/trabajos/2026/03/12/proyecto-piscina-comunitaria-passivhaus/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-casa-llosa",
+      "destination": "/trabajos/2026/03/03/casa-llosa/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-libreria-popular",
+      "destination": "/trabajos/2026/01/08/libreria-popular/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-casa-nereida",
+      "destination": "/trabajos/2026/01/07/casa-nereida/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-casa-llum",
+      "destination": "/trabajos/2026/01/07/casa-llum/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-casa-kimun",
+      "destination": "/trabajos/2025/11/12/casa-kimun/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-residencial-santa-fiora",
+      "destination": "/trabajos/2025/01/13/residencial-santa-fiora/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-casa-cordoba",
+      "destination": "/trabajos/2025/01/11/casa-cordoba/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-comunitaria-mirabueno-ii",
+      "destination": "/trabajos/2025/01/09/proyecto-piscina-comunitaria-mirabueno-ii/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-reforma-integral-cocina",
+      "destination": "/trabajos/2019/02/07/reforma-integral-cocina/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-reforma-integral-vivienda-lt",
+      "destination": "/trabajos/2017/03/22/reforma-integral-vivienda-lt/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-cafeteria-semilla-negra",
+      "destination": "/trabajos/2016/12/01/cafeteria-semilla-negra/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-rehabilitacion-piscina-privada-ml",
+      "destination": "/trabajos/2016/12/01/rehabilitacion-piscina-privada-ml/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-aislamiento-termico-de-vivienda",
+      "destination": "/trabajos/2016/12/01/aislamiento-termico-de-vivienda/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-tienda-apple-premium-reseller-benotac",
+      "destination": "/trabajos/2016/12/01/tienda-apple-premium-reseller-benotac/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-rehabilitacion-piscina-privada-jl",
+      "destination": "/trabajos/2016/11/30/rehabilitacion-piscina-privada-jl/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-desbordante-con-spa-jf",
+      "destination": "/trabajos/2016/11/30/piscina-desbordante-con-spa-jf/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-reforma-terraza-pl",
+      "destination": "/trabajos/2016/11/30/reforma-terraza-pl/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-farmacia-san-pablo",
+      "destination": "/trabajos/2016/11/29/farmacia-san-pablo/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-municipal-de-el-bonillo",
+      "destination": "/trabajos/2016/11/29/piscina-municipal-de-el-bonillo/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-privada-mt",
+      "destination": "/trabajos/2016/11/21/piscina-privada-mt/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-clinica-albamatrona",
+      "destination": "/trabajos/2016/11/21/clinica-albamatrona/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-rectangular-jc",
+      "destination": "/trabajos/2016/11/21/piscina-rectangular-jc/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-local-comercial-bodybell",
+      "destination": "/trabajos/2016/11/21/local-comercial-bodybell/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-rehabilitacion-piscina-privada-ec",
+      "destination": "/trabajos/2016/11/17/rehabilitacion-piscina-privada-ec/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-irregular-jr",
+      "destination": "/trabajos/2016/11/16/piscina-irregular-jr/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-rehabilitacion-piscina-privada-lc",
+      "destination": "/trabajos/2016/11/16/rehabilitacion-piscina-privada-lc/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-ecologica-cn",
+      "destination": "/trabajos/2016/11/15/piscina-ecologica-cn/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-peluquerias-nux",
+      "destination": "/trabajos/2016/11/14/peluquerias-nux/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-perfumerias-marvimundo",
+      "destination": "/trabajos/2016/11/13/perfumerias-marvimundo/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-comunidad",
+      "destination": "/trabajos/2016/11/10/proyecto-piscina-comunidad/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-cafeteria",
+      "destination": "/trabajos/2016/11/07/proyecto-cafeteria/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-peluqueria-azul-de-rizos",
+      "destination": "/trabajos/2016/11/02/peluqueria-azul-de-rizos/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-rehabilitacion-piscina-privada-cr",
+      "destination": "/trabajos/2016/11/02/rehabilitacion-piscina-privada-cr/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-local-comercial-orange",
+      "destination": "/trabajos/2016/10/31/local-comercial-orange/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-privada-an",
+      "destination": "/trabajos/2015/10/30/piscina-privada-an/",
+      "permanent": true
+    },
+    {
+      "source": "/cat-construccion",
+      "destination": "/trabajos/categoria/construccion/",
+      "permanent": true
+    },
+    {
+      "source": "/cat-reforma-integral",
+      "destination": "/trabajos/categoria/reforma-integral/",
+      "permanent": true
+    },
+    {
+      "source": "/cat-piscinas",
+      "destination": "/trabajos/categoria/piscinas/",
+      "permanent": true
+    },
+    {
+      "source": "/cat-locales-comerciales",
+      "destination": "/trabajos/categoria/locales-comerciales/",
+      "permanent": true
+    },
+    {
+      "source": "/cat-promocion-inmobiliaria",
+      "destination": "/trabajos/categoria/promocion-inmobiliaria/",
+      "permanent": true
+    },
+    {
+      "source": "/cat-proyectos",
+      "destination": "/trabajos/categoria/proyectos/",
+      "permanent": true
+    },
+    {
+      "source": "/trabajo-piscina-passivhaus",
+      "destination": "/trabajos/2026/03/12/proyecto-piscina-comunitaria-passivhaus/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=2592000"
+        }
+      ]
+    }
+  ]
 }

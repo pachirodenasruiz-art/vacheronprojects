@@ -22,6 +22,8 @@ FONTS = '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel=
 PROTO = ''
 
 WA = 'https://wa.me/34628060560'
+MAPS_AB = 'https://maps.app.goo.gl/EhXCimrKcmneG8GX9'
+MAPS_AL = 'https://maps.app.goo.gl/rv4PVLueHoMXYRWF7'
 
 # ======================================================================
 # DATOS: trabajos importados de vacheronprojects.com/trabajos
@@ -98,6 +100,7 @@ for d in RAW:
     w['cover'] = fotos[c] if fotos else None
     w['type'] = ' '.join(w['cats'])
     w['url'] = 'promocion-residencial-ifach.html' if slug == 'residencial-ifach' else f'trabajo-{slug}.html'
+    w['old'] = d['href']  # URL de la web anterior: se conserva para no perder posicionamiento
     WORKS.append(w)
 BY = {w['slug']: w for w in WORKS}
 
@@ -194,7 +197,7 @@ def footer():
       <div><p class="label">Servicios</p><ul>{svc}</ul></div>
       <div><p class="label">Empresa</p><ul><li><a href="nosotros.html">Nosotros</a></li><li><a href="trabajos.html">Trabajos</a></li><li><a href="promocion-residencial-ifach.html">Residencial Ifach</a></li><li><a href="noticias.html">Noticias</a></li><li><a href="inversores.html">Inversores</a></li><li><a href="empleo.html">Empleo</a></li><li><a href="contacto.html">Contacto</a></li></ul></div>
       <div><p class="label">Legal</p><ul><li><a href="aviso-legal.html">Aviso legal</a></li><li><a href="proteccion-datos.html">Protección de datos</a></li><li><a href="cookies.html">Política de cookies</a></li></ul>
-        <p class="label" style="margin-top:28px">Contacto</p><ul><li>967 50 25 44</li><li><a href="{WA}" target="_blank" rel="noopener">WhatsApp 628 060 560</a></li><li>info@vacheronprojects.com</li><li>Marqués de Villores, 34 · 02003 Albacete</li><li>Colón, 21 · 03001 Alicante</li></ul></div>
+        <p class="label" style="margin-top:28px">Contacto</p><ul><li>967 50 25 44</li><li><a href="{WA}" target="_blank" rel="noopener">WhatsApp 628 060 560</a></li><li>info@vacheronprojects.com</li><li><a href="{MAPS_AB}" target="_blank" rel="noopener">Marqués de Villores, 34 · 02003 Albacete</a></li><li><a href="{MAPS_AL}" target="_blank" rel="noopener">Colón, 21 · 03001 Alicante</a></li></ul></div>
     </div>
     <div class="legal"><span>© 2026 VACHERON PROJECTS S.L. · CIF B02209104 · Proyectos en toda España · Oficinas en Albacete y Alicante</span><span><a href="empleo.html">Empleo</a> · <a href="aviso-legal.html">Aviso legal</a> · <a href="proteccion-datos.html">Protección de datos</a> · <a href="cookies.html">Cookies</a></span></div>
   </div>
@@ -213,17 +216,109 @@ ICON_LINKS = ('<link rel="icon" href="favicon.ico" sizes="any">\n'
               '<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">\n'
               '<meta name="theme-color" content="#0F6B58">')
 
+SITE = 'https://www.vacheronprojects.com'
+
+# Mismas URL que la web anterior (vacheronprojects.com) para conservar el posicionamiento
+ROUTES = {
+  'index.html': '/', 'nosotros.html': '/nosotros/', 'servicios.html': '/servicios/',
+  'servicio-construccion.html': '/servicios/construccion/', 'servicio-reforma-integral.html': '/servicios/reforma-integral/',
+  'servicio-piscinas.html': '/servicios/piscinas/', 'servicio-gestion-proyectos.html': '/servicios/proyectos/',
+  'servicio-locales-comerciales.html': '/servicios/locales-comerciales/', 'servicio-promocion-inmobiliaria.html': '/servicios/promocion-inmobiliaria/',
+  'trabajos.html': '/trabajos/', 'promocion-residencial-ifach.html': '/residencial-ifach/',
+  'noticias.html': '/noticias/', 'noticia.html': '/noticias/cuanto-cuesta-construir-una-vivienda-unifamiliar/',
+  'inversores.html': '/inversores/', 'contacto.html': '/contacto/', 'empleo.html': '/empleo/',
+  'aviso-legal.html': '/aviso-legal/', 'proteccion-datos.html': '/proteccion-de-datos/', 'cookies.html': '/politica-de-cookies/',
+}
+for _w in WORKS:
+    if _w['slug'] != 'residencial-ifach':
+        ROUTES[_w['url']] = _w['old']
+for _c in CATS:
+    ROUTES[f'cat-{_c}.html'] = f'/trabajos/categoria/{_c}/'
+
+def route(fname):
+    return ROUTES[fname]
+
+def rewrite_links(h):
+    """Convierte los enlaces internos (nombre.html) en las URL definitivas y hace absolutas las rutas de recursos."""
+    h = re.sub(r'(href|src)="([a-z0-9\-]+\.html)(#[^"]*)?"', lambda m: f'{m.group(1)}="{ROUTES[m.group(2)]}{m.group(3) or ""}"', h)
+    h = re.sub(r'(href|src)="(assets/|favicon\.ico|apple-touch-icon\.png)', r'\1="/\2', h)
+    return h
+
+# Títulos (máx. 60) y descripciones (máx. 155) optimizados para buscadores
+SEO = {
+  'index.html': ('Constructora en Albacete y Alicante | Vacheron Projects', 'Viviendas a medida, reformas integrales y piscinas desde 1990. Presupuesto cerrado y un solo equipo de principio a fin. Pide tu estudio sin compromiso.'),
+  'nosotros.html': ('Constructora desde 1990 en Albacete | Vacheron Projects', 'De Servicasa a Vacheron Projects: más de 30 años construyendo viviendas, piscinas y locales. Oficinas en Albacete y Alicante.'),
+  'servicios.html': ('Construcción, reformas y piscinas | Vacheron Projects', 'Construcción de chalets, reformas integrales, piscinas, locales comerciales y promoción inmobiliaria. Un solo equipo para todo tu proyecto.'),
+  'servicio-construccion.html': ('Construcción de chalets a medida en Albacete y Alicante', 'Diseñamos y construimos tu vivienda unifamiliar llave en mano, con precio cerrado y plazo por contrato. Eficiencia energética de serie.'),
+  'servicio-reforma-integral.html': ('Reformas integrales en Alicante y Albacete | Vacheron', 'Reforma integral de pisos y casas: instalaciones, cocina, baños y ventanas. Presupuesto cerrado y un único responsable. Mira nuestros trabajos.'),
+  'servicio-piscinas.html': ('Construcción de piscinas en Albacete y Alicante | +500', 'Más de 500 piscinas construidas desde 1995: privadas, comunitarias y municipales. Obra nueva y rehabilitación. Pide presupuesto.'),
+  'servicio-gestion-proyectos.html': ('Gestión de proyectos y eficiencia energética | Vacheron', 'Coordinamos arquitectura, licencias y gremios con un único responsable. Experiencia en el primer residencial Passivhaus de Castilla-La Mancha.'),
+  'servicio-locales-comerciales.html': ('Reforma de locales comerciales en Albacete | Vacheron', 'Tiendas, hostelería, clínicas y franquicias: Apple Premium Reseller, BodyBell, Marvimundo… Diseño y obra con fecha de apertura.'),
+  'servicio-promocion-inmobiliaria.html': ('Promoción inmobiliaria y obra nueva en Alicante | Vacheron', 'Promovemos y construimos residenciales de pocas viviendas. Ahora en venta: Residencial Ifach, en San Agustín (Alicante), desde 230.000 €.'),
+  'promocion-residencial-ifach.html': ('Residencial Ifach: pisos de obra nueva en San Agustín', '12 viviendas en calle Calpe 18, Alicante, con garaje, trastero, piscina y club social. Desde 230.000 €. Reserva tu visita.'),
+  'trabajos.html': ('Trabajos de construcción y reforma | Vacheron Projects', 'Viviendas, reformas integrales, piscinas y locales que ya hemos entregado en Albacete, Alicante, Valencia y otras ciudades.'),
+  'contacto.html': ('Presupuesto de obra en Albacete y Alicante | Vacheron', 'Cuéntanos tu proyecto y te responde un responsable en menos de 24 h laborables. Oficinas en Marqués de Villores 34 (Albacete) y Colón 21 (Alicante).'),
+  'inversores.html': ('Invertir en promociones residenciales | Vacheron', 'Coinvierte en promociones de vivienda con un promotor y constructor que controla todo el proceso, desde el suelo hasta la venta.'),
+  'noticias.html': ('Blog de construcción, reformas y eficiencia | Vacheron', 'Guías para construir o reformar tu casa, novedades del estudio y promociones en venta en Albacete y Alicante.'),
+  'empleo.html': ('Trabaja con nosotros en Albacete y Alicante | Vacheron', 'Ofertas de empleo en construcción: jefes de obra, arquitectos técnicos y oficiales. Envía tu candidatura a Vacheron Projects.'),
+}
+
+def clip(t, n):
+    t = re.sub(r'\s+', ' ', t).strip()
+    return t if len(t) <= n else t[:n - 1].rsplit(' ', 1)[0].rstrip(',.;:') + '…'
+
+ORG_LD = {
+  "@context": "https://schema.org", "@type": "GeneralContractor", "name": "Vacheron Projects", "legalName": "VACHERON PROJECTS S.L.",
+  "alternateName": "Servicasa", "url": SITE + "/", "logo": SITE + "/assets/lockup.jpg", "image": SITE + "/assets/trabajos/casa-kimun/00.jpg",
+  "foundingDate": "1990", "taxID": "B02209104", "telephone": "+34 967 50 25 44", "faxNumber": "+34 967 50 30 69", "email": "info@vacheronprojects.com",
+  "address": {"@type": "PostalAddress", "streetAddress": "Marqués de Villores, 34", "postalCode": "02003", "addressLocality": "Albacete", "addressRegion": "Albacete", "addressCountry": "ES"},
+  "geo": {"@type": "GeoCoordinates", "latitude": 38.9905649, "longitude": -1.8578801}, "hasMap": MAPS_AB,
+  "areaServed": "ES",
+  "department": [{"@type": "GeneralContractor", "name": "Vacheron Projects Alicante", "telephone": "+34 628 06 05 60",
+                  "address": {"@type": "PostalAddress", "streetAddress": "Colón, 21", "postalCode": "03001", "addressLocality": "Alicante", "addressRegion": "Alicante", "addressCountry": "ES"},
+                  "geo": {"@type": "GeoCoordinates", "latitude": 38.3443497, "longitude": -0.4886729}, "hasMap": MAPS_AL}],
+  "sameAs": ["https://www.instagram.com/vacheronprojects/", "https://www.facebook.com/vacheronprojects/", "https://www.linkedin.com/company/vacheron-projects-sl/", "https://twitter.com/VacheronProject/", "https://es.pinterest.com/Vacheronproject/"],
+}
+
+def ld(obj):
+    return '<script type="application/ld+json">' + json.dumps(obj, ensure_ascii=False) + '</script>'
+
+# Borra lo generado en la ejecución anterior (páginas sueltas y carpetas de rutas)
+GENERATED_DIRS = ['nosotros', 'servicios', 'trabajos', 'residencial-ifach', 'noticias', 'inversores', 'contacto', 'empleo', 'aviso-legal', 'proteccion-de-datos', 'politica-de-cookies']
+for _f in glob.glob(os.path.join(OUT, '*.html')):
+    os.remove(_f)
+for _d in GENERATED_DIRS:
+    shutil.rmtree(os.path.join(OUT, _d), ignore_errors=True)
+
 PAGES = []
-def page(fname, title, desc, active, body, home=False):
-    head_meta = f'<meta name="description" content="{html.escape(desc)}">\n{ICON_LINKS}\n{FONTS}\n<link rel="stylesheet" href="assets/styles.css">'
-    full_title = title if home else f'{title} · Vacheron Projects'
+def page(fname, title, desc, active, body, home=False, seo=None, extra_ld=None, image=None):
+    path = route(fname)
+    t, d = seo or SEO.get(fname) or ((title if home else clip(f'{title} | Vacheron Projects', 60)), desc)
+    d = clip(d, 155)
+    url = SITE + path
+    og_img = SITE + '/' + (image or 'assets/trabajos/casa-kimun/00.jpg')
+    lds = [ORG_LD] if fname in ('index.html', 'nosotros.html', 'contacto.html') else []
+    lds += extra_ld or []
+    crumbs = [{"@type": "ListItem", "position": 1, "name": "Inicio", "item": SITE + "/"}]
+    if path != '/':
+        crumbs.append({"@type": "ListItem", "position": 2, "name": title, "item": url})
+        lds.append({"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": crumbs})
+    head_meta = '\n'.join([
+        f'<meta name="description" content="{html.escape(d)}">',
+        f'<link rel="canonical" href="{url}">',
+        '<meta property="og:type" content="website">', '<meta property="og:locale" content="es_ES">',
+        '<meta property="og:site_name" content="Vacheron Projects">',
+        f'<meta property="og:title" content="{html.escape(t)}">', f'<meta property="og:description" content="{html.escape(d)}">',
+        f'<meta property="og:url" content="{url}">', f'<meta property="og:image" content="{og_img}">',
+        '<meta name="twitter:card" content="summary_large_image">',
+        ICON_LINKS, FONTS, '<link rel="stylesheet" href="assets/styles.css">'] + [ld(x) for x in lds])
     body_html = f'{ICONS}{PROTO}\n{nav(active)}\n<main id="top">\n{body}\n</main>\n{footer()}\n<script src="assets/site.js"></script>\n'
-    if home:  # la página principal del artefacto se envuelve sola en un esqueleto HTML
-        out = f'<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>{full_title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{head_meta}\n{body_html}'
-    else:
-        out = f'<!doctype html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>{full_title}</title>\n{head_meta}\n</head>\n<body>\n{body_html}</body>\n</html>\n'
-    open(os.path.join(OUT, fname), 'w', encoding='utf-8').write(out)
-    PAGES.append(fname)
+    out = f'<!doctype html>\n<html lang="es">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<title>{html.escape(t)}</title>\n{head_meta}\n</head>\n<body>\n{body_html}</body>\n</html>\n'
+    out = rewrite_links(out)
+    target = os.path.join(OUT, path.strip('/'), 'index.html') if path != '/' else os.path.join(OUT, 'index.html')
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    open(target, 'w', encoding='utf-8').write(out)
+    PAGES.append(path)
 
 def crumbs_html(crumbs):
     return '<a href="index.html">Inicio</a>' + ''.join(
@@ -258,7 +353,7 @@ def work_meta(w):
     return ' · '.join(x for x in [w['loc'], CATS.get(w['cats'][0], '') if w['cats'] else ''] if x)
 
 def work_card(w, lazy=True):
-    cover = img(w['cover'], w['title'], lazy=lazy) if w['cover'] else ''
+    cover = img(w['cover'], ', '.join(x for x in [w['title'], CATS.get(w['cats'][0], '').lower() if w['cats'] else '', w['loc']] if x), lazy=lazy) if w['cover'] else ''
     tag = '<span class="badge">En venta</span>' if w['slug'] == 'residencial-ifach' else ''
     return f'''<a class="proj" href="{w['url']}" data-type="{w['type']}"><div class="img">{cover}{tag}</div>
 <div class="proj-head"><h3>{w['title']}</h3><span class="label">{work_meta(w)}</span></div><p>{w['summary']}</p></a>'''
@@ -306,9 +401,10 @@ recent = [BY[s] for s in ['casa-grades', 'casa-llum', 'piscina-comunitaria-passi
 home = f'''
   <section class="hero">
     <div class="wrap hero-grid">
-      <h1>Tu casa, exactamente como la imaginas. <span class="l2"><em>Construida exactamente como te la prometimos.</em></span></h1>
+      <h1 class="label f hero-h1">Constructora de viviendas personalizadas en Albacete y Alicante</h1>
+      <p class="hero-big">Tu casa, exactamente como la imaginas. <span class="l2"><em>Construida exactamente como te la prometimos.</em></span></p>
       <div class="hero-meta">
-        <p class="label f">Proyectos en toda España</p>
+        <p class="label">Desde 1990 · Proyectos en toda España</p>
         <p class="note">Oficinas en Albacete y Alicante</p>
       </div>
       <div class="hero-side">
@@ -358,7 +454,7 @@ home = f'''
 
   <section class="section" id="servicios" aria-labelledby="serv-h" style="padding-top:0">
     <div class="wrap">
-      {head('Qué hacemos', 'Cuatro formas de llegar a <em>la misma casa: la tuya.</em>', 'Un solo equipo diseña, calcula, construye y responde. Tú no coordinas gremios: decides cómo quieres vivir.')}
+      {head('Qué hacemos', 'Casas a medida, reformas integrales y piscinas <em>con más de 30 años de oficio.</em>', 'Un solo equipo diseña, calcula, construye y responde. Tú no coordinas gremios: decides cómo quieres vivir.')}
       <div class="services">
         <article class="service">
           <svg class="ico" viewBox="0 0 56 56" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M6 48h44M10 48V26h22v22" stroke="#0B4A3D"/><path d="M32 48V16h14v32M14 32h6v6h-6zM36 22h6v6h-6z" stroke="#2A8F80"/></svg>
@@ -417,9 +513,9 @@ page('index.html', 'Vacheron Projects', 'Diseñamos y construimos viviendas unif
 # ======================================================================
 # 2. NOSOTROS
 # ======================================================================
-OFFICES = '''<div class="offices2">
-    <article><p class="label">Sede central</p><h3>Albacete</h3><p>Marqués de Villores, 34<br>02003 Albacete</p></article>
-    <article><p class="label">Oficina</p><h3>Alicante</h3><p>Colón, 21<br>03001 Alicante</p></article>
+OFFICES = f'''<div class="offices2">
+    <article><p class="label">Sede central</p><h3>Albacete</h3><p>Marqués de Villores, 34<br>02003 Albacete</p><p><a class="link" href="{MAPS_AB}" target="_blank" rel="noopener">Cómo llegar en Google Maps</a></p></article>
+    <article><p class="label">Oficina</p><h3>Alicante</h3><p>Colón, 21<br>03001 Alicante</p><p><a class="link" href="{MAPS_AL}" target="_blank" rel="noopener">Cómo llegar en Google Maps</a></p></article>
   </div>'''
 TIMELINE = [
   ('1990', 'Nace Servicasa', 'Empezamos en Albacete como empresa de construcción y servicios para el hogar.'),
@@ -460,31 +556,31 @@ page('nosotros.html', 'Nosotros', 'Constructora especializada en viviendas unifa
 # ======================================================================
 SVC = {
  'construccion': dict(photo=('casa-cordoba', 0),
-   h1='Tu casa, de la parcela <em>a la llave.</em>',
+   h1='Construcción de chalets y viviendas <em>unifamiliares a medida</em>',
    lead='Diseñamos y construimos viviendas unifamiliares y chalets llave en mano, con presupuesto cerrado y fecha de entrega por contrato.',
-   intro=('Construir una casa no debería ser una carrera de obstáculos.', ['Estudiamos tu parcela, su orientación y su normativa antes de dibujar una sola línea. Después diseñamos contigo cada estancia y te entregamos un precio cerrado partida a partida.', 'Durante la obra tienes un único responsable y un informe semanal con fotos. Al final recibes las llaves de una casa eficiente, con aerotermia, fotovoltaica y climatización de alta eficiencia si así lo quieres.']),
+   intro=('De la parcela a la llave: tu casa diseñada y construida por un solo equipo.', ['Construimos viviendas unifamiliares personalizadas en Albacete, Alicante y el resto de España, como Casa Kimun en el barrio Medicina o Casa Córdoba en Pinares del Júcar. Estudiamos tu parcela, su orientación y su normativa antes de dibujar una sola línea. Después diseñamos contigo cada estancia y te entregamos un precio cerrado partida a partida.', 'Durante la obra tienes un único responsable y un informe semanal con fotos. Al final recibes las llaves de una casa eficiente, con aerotermia, fotovoltaica y climatización de alta eficiencia si así lo quieres.']),
    benefits=[('Llave en mano', 'Proyecto, licencias, obra y legalización. Tú decides; nosotros coordinamos todo lo demás.'), ('Diseño a medida', 'Ninguna casa se repite. Partimos de cómo vives y de lo que ofrece tu parcela.'), ('Eficiencia real', 'Aislamiento de alto rendimiento, aerotermia y energía solar para un consumo mínimo.')],
    includes=['Estudio de parcela y viabilidad', 'Anteproyecto y proyecto de ejecución', 'Gestión de licencias', 'Presupuesto cerrado partida a partida', 'Dirección y ejecución de obra', 'Certificación energética', 'Seguro decenal', 'Servicio posventa'],
    faq=[('¿Cuánto cuesta construir un chalet?', 'Depende de la parcela, la superficie y los acabados. En la fase de estimación te damos una horquilla realista y en la de proyecto un precio cerrado.'), ('¿Construís fuera de Albacete y Alicante?', 'Sí. Trabajamos en toda España con el mismo equipo y el mismo método.')],
    hash='construccion'),
  'reforma-integral': dict(photo=('casa-llum', 0),
-   h1='Tu casa de siempre, <em>como nunca la habías vivido.</em>',
+   h1='Reformas integrales de viviendas <em>en Alicante y Albacete</em>',
    lead='Reformas integrales: redistribución, luz, instalaciones y eficiencia, con un solo equipo y sin sorpresas en la factura.',
-   intro=('Una reforma integral es casi una casa nueva.', ['Por eso la tratamos como tal: revisamos la vivienda existente, detectamos lo que no se ve y proponemos una distribución pensada para tu forma de vivir.', 'Renovamos instalaciones eléctricas y de fontanería, cambiamos carpinterías y climatización, y ejecutamos cocinas y baños desde cero, como en Casa Grades, Casa Llosa o Casa Llum.']),
+   intro=('Renovamos tu casa por completo, sin coordinar gremios ni sorpresas en la factura.', ['Por eso la tratamos como tal: revisamos la vivienda existente, detectamos lo que no se ve y proponemos una distribución pensada para tu forma de vivir.', 'Renovamos instalaciones eléctricas y de fontanería, cambiamos carpinterías y climatización, y ejecutamos cocinas y baños desde cero, como en Casa Grades, Casa Llosa o Casa Llum.']),
    benefits=[('Sin gremios que coordinar', 'Un único responsable organiza albañilería, instalaciones, carpintería y acabados.'), ('Precio cerrado', 'Revisión previa para que el presupuesto refleje la realidad de tu casa, no una suposición.'), ('Más confort, menos gasto', 'Ventanas de altas prestaciones y climatización por zonas para ganar confort y ahorrar.')],
    includes=['Revisión y diagnóstico de la vivienda', 'Diseño de distribución e interiorismo', 'Licencias y permisos', 'Instalaciones nuevas', 'Carpinterías y aislamiento', 'Cocinas y baños a medida', 'Limpieza final de obra', 'Garantía posventa'],
    faq=[('¿Puedo vivir en casa durante la obra?', 'En una reforma integral no es recomendable. Te ayudamos a planificar el calendario para que el tiempo fuera de casa sea el mínimo.'), ('¿Y si aparece algo inesperado?', 'La revisión previa reduce las sorpresas. Si aparece algo, te lo explicamos con su coste antes de ejecutarlo.')],
    hash='reforma'),
  'piscinas': dict(photo=('piscina-desbordante-con-spa-jf', 0),
-   h1='Agua <em>como arquitectura.</em>',
+   h1='Construcción y rehabilitación de piscinas <em>en Albacete y Alicante</em>',
    lead='Más de 500 piscinas construidas desde 1995: privadas, comunitarias y municipales, de obra nueva y rehabilitación integral.',
-   intro=('Una piscina bien diseñada se integra, no se añade.', ['Construimos piscinas desbordantes, irregulares, ecológicas o con spa, y rehabilitamos vasos antiguos con hormigón gunitado, nuevos revestimientos y escaleras más accesibles.', 'También trabajamos para promotoras: hemos ejecutado piscinas comunitarias como Mirabueno II en Córdoba o la del primer residencial Passivhaus de Castilla-La Mancha, en Albacete.']),
+   intro=('Más de 500 piscinas construidas desde 1995.', ['Construimos piscinas desbordantes, irregulares, ecológicas o con spa, y rehabilitamos vasos antiguos con hormigón gunitado, nuevos revestimientos y escaleras más accesibles.', 'También trabajamos para promotoras: hemos ejecutado piscinas comunitarias como Mirabueno II en Córdoba o la del primer residencial Passivhaus de Castilla-La Mancha, en Albacete.']),
    benefits=[('Más de 500 piscinas', 'Treinta años construyendo piscinas: sabemos qué funciona y qué dura.'), ('Rehabilitación', 'Devolvemos la vida a piscinas antiguas: gunitado, gresite, iluminación LED y accesibilidad.'), ('Equipamiento eficiente', 'Filtración con vidrio reciclado, electrólisis salina e iluminación LED.')],
    includes=['Diseño y proyecto', 'Licencias', 'Excavación y vaso de hormigón gunitado', 'Revestimientos vítreos', 'Filtración y depuración', 'Iluminación LED', 'Coronación y playa', 'Puesta en marcha'],
    faq=[('¿Hacéis piscinas comunitarias?', 'Sí, para comunidades y promotoras, como Mirabueno II en Córdoba o Imaginalia en Albacete.'), ('¿Rehabilitáis piscinas antiguas?', 'Sí. Es uno de nuestros trabajos más habituales: gunitado, revestimiento, coronación, escaleras e iluminación.')],
    hash='piscina'),
  'gestion-proyectos': dict(photo=('piscina-comunitaria-passivhaus', 0),
-   h1='Tú decides. <em>Nosotros nos ocupamos de todo lo demás.</em>',
+   h1='Gestión de proyectos <em>y eficiencia energética</em>',
    lead='Gestión integral de proyectos y estándar Passivhaus: arquitectura, licencias, gremios, calendario y control de calidad con un único responsable.',
    intro=('Un proyecto bien gestionado se nota en el resultado y en tu tranquilidad.', ['Coordinamos a todos los agentes que intervienen en una obra: arquitectura, ingenierías, administración, proveedores y gremios.', 'Trabajamos también para promotoras de ámbito nacional, con el nivel de organización, control de calidad y cumplimiento de plazos que exigen.']),
    benefits=[('Un solo interlocutor', 'Tu responsable de proyecto, con nombre y teléfono, de principio a fin.'), ('Obra a la vista', 'Informe semanal con fotos, avance de calendario y estado del presupuesto.'), ('Passivhaus', 'Experiencia en el primer edificio residencial Passivhaus de Castilla-La Mancha.')],
@@ -492,7 +588,7 @@ SVC = {
    faq=[('¿Gestionáis proyectos de otros arquitectos?', 'Sí. Podemos gestionar y construir el proyecto de tu arquitecto manteniendo presupuesto cerrado y plazo por contrato.'), ('¿Qué es una casa Passivhaus?', 'Una vivienda que necesita muy poca energía para mantenerse confortable gracias al aislamiento, la hermeticidad y la ventilación con recuperación de calor.')],
    hash=''),
  'locales-comerciales': dict(photo=('tienda-apple-premium-reseller-benotac', 0),
-   h1='Locales que <em>venden por sí solos.</em>',
+   h1='Reforma de locales comerciales <em>y franquicias</em>',
    lead='Reforma y acondicionamiento de tiendas, hostelería, clínicas y franquicias, con plazos ajustados a tu apertura.',
    intro=('Cada día de obra es un día sin facturar.', ['Hemos acondicionado locales para marcas como Apple Premium Reseller, BodyBell, Marvimundo, NUX u Orange, siempre a partir de su identidad corporativa y en distintas ciudades de España.', 'Nos encargamos de albañilería, instalaciones, climatización, iluminación y revestimientos para que abras sin preocupaciones.']),
    benefits=[('Fecha de apertura', 'Calendario cerrado y coordinado con tu plan de lanzamiento.'), ('Identidad de marca', 'Aplicamos el manual de la marca y lo replicamos en cada local.'), ('Experiencia', 'Comercio, hostelería, farmacia, clínica, peluquería y cultura.')],
@@ -500,7 +596,7 @@ SVC = {
    faq=[('¿Trabajáis con franquicias?', 'Sí. Adaptamos el manual de la marca a cada local, como hicimos con BodyBell, NUX o Marvimundo.'), ('¿Trabajáis fuera de Albacete?', 'Sí, hemos acondicionado locales en Albacete, Alicante, Benidorm, Almansa, Cuenca, Murcia, Valencia y Granada.')],
    hash=''),
  'promocion-inmobiliaria': dict(photo=None,
-   h1='Viviendas de obra nueva <em>para vivir y para invertir.</em>',
+   h1='Promoción inmobiliaria <em>y obra nueva</em>',
    lead='Promovemos y construimos residenciales de pocas viviendas, cuidados al detalle y en barrios con vida.',
    intro=('Promociones pequeñas, cuidadas y eficientes.', ['Buscamos suelo, diseñamos y construimos promociones de pocas viviendas, con la misma exigencia de calidad que una casa a medida, como Residencial Santa Fiora en Albacete.', 'Ahora mismo comercializamos Residencial Ifach, en el barrio de San Agustín de Alicante.']),
    benefits=[('Personalización', 'En Santa Fiora los propietarios eligieron todos los revestimientos; en Ifach, el programa Customize.'), ('Eficiencia energética', 'Aerotermia, aislamiento y carpinterías con rotura de puente térmico.'), ('Zonas comunes', 'Piscina, solárium, jardín y club social en nuestras promociones.')],
@@ -540,7 +636,7 @@ for slug, name, group, short in SERVICES:
     if ws:
         body += f'''<section class="section" style="padding-top:0"><div class="wrap">{head('Trabajos de ' + name.lower(), 'Más de 500 piscinas <em>construidas.</em>' if slug == 'piscinas' else 'Algunos de nuestros <em>trabajos.</em>', f'Una selección de {len(ws)} piscinas de nuestro portafolio.' if slug == 'piscinas' else '')}
 <div class="work-grid three">{''.join(work_card(w) for w in ws[:6])}</div>
-<p style="margin-top:40px"><a href="trabajos.html#{[k for k, v in CAT_SERVICE.items() if v == slug][0]}" class="btn btn-ghost">Ver todos <span class="arr" aria-hidden="true">→</span></a></p></div></section>'''
+<p style="margin-top:40px"><a href="cat-{[k for k, v in CAT_SERVICE.items() if v == slug][0]}.html" class="btn btn-ghost">Ver todos <span class="arr" aria-hidden="true">→</span></a></p></div></section>'''
     body += f'''<section class="section"><div class="wrap faq"><div class="faq-head"><p class="label f">Preguntas frecuentes</p><h2>Lo que nos <em>preguntan.</em></h2></div><div class="faq-list">{faq(d['faq'])}</div></div></section>'''
     if slug == 'promocion-inmobiliaria':
         body += cta_band('¿Buscas vivienda o <em>quieres invertir?</em>', ('Ver Residencial Ifach', 'promocion-residencial-ifach.html'), ('Área de inversores', 'inversores.html'))
@@ -566,16 +662,43 @@ page('servicios.html', 'Servicios', 'Construcción, reformas integrales, piscina
 # 4. TRABAJOS + FICHAS
 # ======================================================================
 counts = {k: sum(1 for w in WORKS if k in w['cats']) for k in CATS}
-filters = f'<button aria-pressed="true" data-f="all">Todos <span>{len(WORKS)}</span></button>' + ''.join(
-    f'<button aria-pressed="false" data-f="{k}">{v} <span>{counts[k]}</span></button>' for k, v in CATS.items() if counts[k])
+def filters_html(active):
+    a = lambda on: ' aria-current="page"' if on else ''
+    return f'<a href="trabajos.html"{a(active is None)}>Todos <span>{len(WORKS)}</span></a>' + ''.join(
+        f'<a href="cat-{k}.html"{a(active == k)}>{v} <span>{counts[k]}</span></a>' for k, v in CATS.items() if counts[k])
+filters = filters_html(None)
 body = phero([('Trabajos', None)], 'Cada proyecto cuenta <em>su propia historia.</em>',
   f'Una selección de {len(WORKS)} trabajos: viviendas, reformas integrales, piscinas, locales comerciales y promociones.', label='Trabajos')
 body += f'''<section class="section" style="padding-top:clamp(16px,2vw,24px)"><div class="wrap">
-<div class="filters" role="group" aria-label="Filtrar trabajos">{filters}</div>
+<nav class="filters" aria-label="Categorías de trabajos">{filters}</nav>
 <div class="work-grid three">{''.join(work_card(w, lazy=i > 5) for i, w in enumerate(WORKS))}</div>
 </div></section>
 {cta_band('¿Será tu casa <em>el próximo trabajo?</em>', ('Empezar mi proyecto', 'contacto.html'), None)}'''
 page('trabajos.html', 'Trabajos', 'Portafolio de Vacheron Projects: viviendas, reformas integrales, piscinas, locales comerciales y promociones.', 'trabajos', body)
+
+CAT_INTRO = {
+  'construccion': ('Trabajos de construcción', 'Viviendas unifamiliares personalizadas, residenciales e instalaciones deportivas construidas por Vacheron Projects.'),
+  'reforma-integral': ('Reformas integrales', 'Reformas integrales de pisos y casas en Alicante, Altea, Valencia y Albacete.'),
+  'piscinas': ('Piscinas construidas', 'Una selección de las más de 500 piscinas que hemos construido o rehabilitado desde 1995.'),
+  'locales-comerciales': ('Locales comerciales', 'Tiendas, hostelería, clínicas y franquicias acondicionadas en distintas ciudades de España.'),
+  'promocion-inmobiliaria': ('Promociones inmobiliarias', 'Residenciales promovidos y construidos por Vacheron Projects.'),
+  'proyectos': ('Gestión de proyectos', 'Proyectos en los que coordinamos técnicos, licencias y gremios con un único responsable.'),
+}
+for k, v in CATS.items():
+    ws = [w for w in WORKS if k in w['cats']]
+    if not ws:
+        continue
+    h1, lead = CAT_INTRO[k]
+    body = phero([('Trabajos', 'trabajos.html'), (v, None)], h1, lead, label=f'Trabajos · {v}')
+    body += f'''<section class="section" style="padding-top:clamp(16px,2vw,24px)"><div class="wrap">
+<nav class="filters" aria-label="Categorías de trabajos">{filters_html(k)}</nav>
+<div class="work-grid three">{''.join(work_card(w, lazy=i > 5) for i, w in enumerate(ws))}</div>
+<p style="margin-top:40px"><a href="servicio-{CAT_SERVICE[k]}.html" class="link">Ver el servicio de {v.lower()}</a></p>
+</div></section>
+{cta_band('¿Hablamos de <em>tu proyecto?</em>', ('Empezar mi proyecto', 'contacto.html'), None)}'''
+    page(f'cat-{k}.html', v, lead, 'trabajos', body,
+         seo=(clip(f'{h1} | Vacheron Projects', 60), f'{lead} Mira fotos y detalles de cada trabajo.'),
+         image='assets/trabajos/' + ws[0]['cover'][0])
 
 for w in WORKS:
     if w['slug'] == 'residencial-ifach':
@@ -596,7 +719,15 @@ for w in WORKS:
     body += cta_band(f'¿Un proyecto como {w["title"]}? <em>Hablemos.</em>', ('Empezar mi proyecto', 'contacto.html'), None)
     if related:
         body += f'''<section class="section"><div class="wrap">{head('Otros trabajos', 'Sigue <em>explorando.</em>')}<div class="work-grid three">{''.join(work_card(o) for o in related)}</div></div></section>'''
-    page(w['url'], w['title'], w['summary'], 'trabajos', body)
+    city = w['loc'].split(',')[-1].strip() if w['loc'] else ''
+    svc = CATS.get(cat, '')
+    cands = [f"{w['title']}: {svc.lower()} en {city} | Vacheron" if svc and city else '',
+             f"{w['title']}, {svc.lower()} en {city}" if svc and city else '',
+             f"{w['title']} | Vacheron Projects"]
+    t = next(c for c in cands if c and len(c) <= 60) if any(c and len(c) <= 60 for c in cands) else clip(w['title'], 60)
+    page(w['url'], w['title'], w['summary'], 'trabajos', body,
+         seo=(t, w['summary'] + ' Descubre el proyecto completo.'),
+         image='assets/trabajos/' + w['cover'][0] if w['cover'] else None)
 
 # ======================================================================
 # 5. RESIDENCIAL IFACH (promoción en venta)
@@ -689,7 +820,12 @@ body += f'''<section style="margin-top:clamp(32px,4vw,48px)"><div class="wrap"><
   </form>
 </div></section>
 <section><div class="wrap"><p class="disclaimer" style="margin-block:40px">Imágenes no contractuales y meramente ilustrativas, sujetas a modificaciones de orden técnico, jurídico o comercial de la dirección facultativa o autoridad competente. Las infografías de fachadas, elementos comunes y restantes espacios son orientativas. El mobiliario de las infografías interiores no está incluido y el equipamiento de las viviendas será el indicado en la memoria de calidades. Las superficies son aproximadas y pueden variar por razones técnicas, legales o administrativas.</p></div></section>'''
-page('promocion-residencial-ifach.html', 'Residencial Ifach', 'Residencial Ifach, calle Calpe 18, San Agustín (Alicante): 12 viviendas con garaje, trastero y piscina desde 230.000 €.', 'servicios', body)
+page('promocion-residencial-ifach.html', 'Residencial Ifach', 'Residencial Ifach, calle Calpe 18, San Agustín (Alicante): 12 viviendas con garaje, trastero y piscina desde 230.000 €.', 'servicios', body,
+     image='assets/ifach/fachada.jpg',
+     extra_ld=[{"@context": "https://schema.org", "@type": "ApartmentComplex", "name": "Residencial Ifach", "url": SITE + "/residencial-ifach/",
+                "image": SITE + "/assets/ifach/fachada.jpg", "numberOfAccommodationUnits": 12,
+                "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": n, "value": True} for n in ["Piscina", "Solárium", "Jardín", "Club social", "Garaje", "Trastero"]],
+                "address": {"@type": "PostalAddress", "streetAddress": "Calle Calpe, 18", "addressLocality": "Alicante", "addressRegion": "Alicante", "addressCountry": "ES"}}])
 
 # ======================================================================
 # 6. NOTICIAS
@@ -765,8 +901,8 @@ contact = contact.replace('<p class="label f">Empezar mi proyecto</p>', '<nav cl
 body = contact + f'''<section class="section"><div class="wrap split">
   <div class="a"><p class="label f">Oficinas</p><h2>Ven a <em>conocernos.</em></h2><p class="lead">Trabajamos en toda España. Si estás lejos, la primera conversación puede ser por videollamada.</p></div>
   <div class="b"><div class="offices2">
-    <article><p class="label">Sede central</p><h3>Albacete</h3><p>Marqués de Villores, 34<br>02003 Albacete</p><p><b>967 50 25 44</b><br>Fax 967 50 30 69</p><p><b>info@vacheronprojects.com</b></p></article>
-    <article><p class="label">Oficina y venta de Residencial Ifach</p><h3>Alicante</h3><p>Colón, 21<br>03001 Alicante</p><p><b>628 06 05 60 · 608 58 37 66</b></p><p><a class="link" href="{WA}" target="_blank" rel="noopener">Escribir por WhatsApp</a></p></article>
+    <article><p class="label">Sede central</p><h3>Albacete</h3><p>Marqués de Villores, 34<br>02003 Albacete</p><p><b>967 50 25 44</b><br>Fax 967 50 30 69</p><p><b>info@vacheronprojects.com</b></p><p><a class="link" href="{MAPS_AB}" target="_blank" rel="noopener">Cómo llegar en Google Maps</a></p></article>
+    <article><p class="label">Oficina y venta de Residencial Ifach</p><h3>Alicante</h3><p>Colón, 21<br>03001 Alicante</p><p><b>628 06 05 60 · 608 58 37 66</b></p><p><a class="link" href="{WA}" target="_blank" rel="noopener">Escribir por WhatsApp</a></p><p><a class="link" href="{MAPS_AL}" target="_blank" rel="noopener">Cómo llegar en Google Maps</a></p></article>
   </div><p class="note">Lunes a viernes · 9:00–19:00. Visitas con cita previa.</p></div>
 </div></section>'''
 page('contacto.html', 'Contacto', 'Cuéntanos tu proyecto. Oficinas en Albacete (Marqués de Villores, 34) y Alicante (Colón, 21).', 'contacto', body)
@@ -845,9 +981,32 @@ legal('cookies.html', 'Política de cookies', '''
 # ======================================================================
 # Recursos
 # ======================================================================
-for f in glob.glob(os.path.join(OUT, '*.html')):
-    if os.path.basename(f) not in PAGES:
-        os.remove(f)  # páginas antiguas que ya no se generan
+# robots.txt y sitemap.xml
+open(os.path.join(OUT, 'robots.txt'), 'w').write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n')
+import datetime
+today = datetime.date.today().isoformat()
+def prio(pth):
+    if pth == '/': return '1.0'
+    if pth.startswith('/servicios/') or pth in ('/residencial-ifach/', '/trabajos/', '/contacto/'): return '0.9'
+    if pth in ('/aviso-legal/', '/proteccion-de-datos/', '/politica-de-cookies/'): return '0.2'
+    return '0.7'
+urls = ''.join(f'  <url><loc>{SITE}{pth}</loc><lastmod>{today}</lastmod><priority>{prio(pth)}</priority></url>\n' for pth in PAGES)
+open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}</urlset>\n')
+
+# Redirecciones 301: URL de la web anterior que cambian y URL provisionales de esta web
+redirects = [
+  {"source": "/trabajos/pagina/:n", "destination": "/trabajos/", "permanent": True},
+  {"source": "/trabajos/pagina/:n/", "destination": "/trabajos/", "permanent": True},
+  {"source": BY['residencial-ifach']['old'], "destination": "/residencial-ifach/", "permanent": True},
+  {"source": "/index.html", "destination": "/", "permanent": True},
+]
+for fname, pth in ROUTES.items():
+    if fname != 'index.html':
+        redirects.append({"source": '/' + fname[:-5], "destination": pth, "permanent": True})
+redirects.append({"source": "/trabajo-piscina-passivhaus", "destination": BY['piscina-comunitaria-passivhaus']['old'], "permanent": True})
+vercel = {"cleanUrls": True, "trailingSlash": True, "redirects": redirects,
+          "headers": [{"source": "/assets/(.*)", "headers": [{"key": "Cache-Control", "value": "public, max-age=2592000"}]}]}
+open(os.path.join(OUT, 'vercel.json'), 'w', encoding='utf-8').write(json.dumps(vercel, ensure_ascii=False, indent=2) + '\n')
 os.makedirs(os.path.join(OUT, 'assets'), exist_ok=True)
 open(os.path.join(OUT, 'assets', 'styles.css'), 'w', encoding='utf-8').write(CSS)
 shutil.copy(os.path.join(HERE, 'site.js'), os.path.join(OUT, 'assets', 'site.js'))
