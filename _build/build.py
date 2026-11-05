@@ -399,63 +399,31 @@ hero_w = BY['casa-kimun']
 recent = [BY[s] for s in ['casa-grades', 'casa-llum', 'piscina-comunitaria-passivhaus', 'casa-kimun', 'libreria-popular', 'casa-nereida']]
 
 home = f'''
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <h1 class="label f hero-h1">Constructora de viviendas personalizadas en Albacete y Alicante</h1>
-      <p class="hero-big">Tu casa, exactamente como la imaginas. <span class="l2"><em>Construida exactamente como te la prometimos.</em></span></p>
-      <div class="hero-meta">
-        <p class="label">Desde 1990 · Proyectos en toda España</p>
-        <p class="note">Oficinas en Albacete y Alicante</p>
-      </div>
-      <div class="hero-side">
+  <section class="hero2">
+    <div class="wrap hero2-grid">
+      <div class="hero2-text">
+        <h1 class="label f hero-h1">Constructora de viviendas personalizadas en Albacete y Alicante</h1>
+        <p class="hero-big">Tu casa, exactamente como la imaginas. <span class="l2"><em>Construida exactamente como te la prometimos.</em></span></p>
         <p class="lead">Diseñamos y construimos viviendas unifamiliares y reformas integrales con presupuesto cerrado, plazo por contrato y un único equipo de principio a fin.</p>
         <div class="ctas">
-          <a href="#contacto" class="btn btn-primary">Empezar mi proyecto <span class="arr" aria-hidden="true">→</span></a>
+          <a href="contacto.html" class="btn btn-primary">Empezar mi proyecto <span class="arr" aria-hidden="true">→</span></a>
           <a href="trabajos.html" class="btn btn-ghost">Ver trabajos</a>
         </div>
+        <p class="note">Desde 1990 · Proyectos en toda España · Oficinas en Albacete y Alicante</p>
       </div>
-    </div>
-    <div class="wrap hero-figure hero-photo">
-      <div class="px">{img(hero_w['fotos'][0], 'Casa Kimun, vivienda unifamiliar en Albacete', lazy=False)}</div>
-      <a class="figcap" href="{hero_w['url']}">CASA KIMUN · VIVIENDA UNIFAMILIAR · ALBACETE →</a>
+      <div class="hero2-photo">
+        <div class="px">{img(hero_w['fotos'][0], 'Casa Kimun, vivienda unifamiliar en Albacete', lazy=False)}</div>
+        <a class="figcap" href="{hero_w['url']}">CASA KIMUN · ALBACETE →</a>
+      </div>
     </div>
   </section>
 
   {CREDS}
 
-  <section class="section" aria-labelledby="ifach-h">
-    <div class="wrap promo-band">
-      <a class="promo-img px" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Fachada de Residencial Ifach, calle Calpe 18, Alicante')}<span class="badge">En venta</span></a>
-      <div class="promo-text">
-        <p class="label f">Promoción en venta · San Agustín, Alicante</p>
-        <h2 id="ifach-h">Residencial Ifach</h2>
-        <p class="lead">Solo 12 viviendas en calle Calpe 18: estudios y pisos de 2 y 3 dormitorios con garaje, trastero, piscina, solárium y club social incluidos.</p>
-        <p class="price"><span>Desde</span> 230.000 €</p>
-        <div class="ctas"><a href="promocion-residencial-ifach.html" class="btn btn-primary">Ver viviendas disponibles <span class="arr" aria-hidden="true">→</span></a></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" style="padding-top:0" aria-labelledby="feat-h">
+  <section class="section tight" id="servicios" aria-labelledby="serv-h">
     <div class="wrap">
-      <div class="head">
-        <p class="label f">Trabajo destacado · Casa Grades</p>
-        <h2 id="feat-h">Reforma integral en uno de los edificios <em>más emblemáticos de Alicante.</em></h2>
-        <p class="lead">Dos dormitorios, vestidor, dos baños y una gran terraza, renovados por completo con cocina nueva, climatización Airzone y carpinterías de altas prestaciones.</p>
-      </div>
-      <div class="feat-photos">
-        <a href="{g['url']}" class="f1">{img(g['fotos'][1], 'Casa Grades, salón')}</a>
-        <a href="{g['url']}" class="f2">{img(g['fotos'][2], 'Casa Grades, interior')}</a>
-        <a href="{g['url']}" class="f3">{img(g['fotos'][4], 'Casa Grades, detalle')}</a>
-      </div>
-      <p style="margin-top:28px"><a href="{g['url']}" class="link">Ver el trabajo completo</a></p>
-    </div>
-  </section>
-
-  <section class="section" id="servicios" aria-labelledby="serv-h" style="padding-top:0">
-    <div class="wrap">
-      {head('Qué hacemos', 'Casas a medida, reformas integrales y piscinas <em>con más de 30 años de oficio.</em>', 'Un solo equipo diseña, calcula, construye y responde. Tú no coordinas gremios: decides cómo quieres vivir.')}
-      <div class="services">
+      {head('Qué hacemos', 'Casas a medida, reformas integrales y piscinas <em>con más de 30 años de oficio.</em>')}
+      <div class="services four">
         <article class="service">
           <svg class="ico" viewBox="0 0 56 56" fill="none" stroke-width="1.6" aria-hidden="true"><path d="M6 48h44M10 48V26h22v22" stroke="#0B4A3D"/><path d="M32 48V16h14v32M14 32h6v6h-6zM36 22h6v6h-6z" stroke="#2A8F80"/></svg>
           <p class="label">Construcción</p><h3>De la parcela a la llave.</h3>
@@ -481,41 +449,40 @@ home = f'''
           <a href="servicio-gestion-proyectos.html" class="link">Cómo trabajamos</a>
         </article>
       </div>
+      <p class="b2b-line"><span class="label">Para empresas e inversores</span><a href="servicio-locales-comerciales.html" class="link">Locales comerciales</a><a href="servicio-promocion-inmobiliaria.html" class="link">Promoción inmobiliaria</a><a href="inversores.html" class="link">Inversores</a></p>
     </div>
   </section>
 
-  <section class="b2b" aria-labelledby="b2b-h">
-    <div class="wrap">
-      <div class="t"><p class="label f">Para empresas e inversores</p><h2 id="b2b-h">También construimos para quien invierte.</h2><p class="lead">El mismo rigor de plazos y presupuesto, aplicado a locales y promociones de vivienda.</p></div>
-      <div class="links">
-        <a href="servicio-locales-comerciales.html"><b>Locales comerciales</b><span>Tiendas, hostelería y franquicias</span></a>
-        <a href="servicio-promocion-inmobiliaria.html"><b>Promoción inmobiliaria</b><span>Viviendas de obra nueva</span></a>
-        <a href="inversores.html"><b>Inversores</b><span>Coinvierte con nosotros</span></a>
+  <section class="section tight" style="padding-top:0" aria-labelledby="ifach-h">
+    <div class="wrap promo-band">
+      <a class="promo-img px" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Fachada de Residencial Ifach, calle Calpe 18, Alicante')}<span class="badge">En venta</span></a>
+      <div class="promo-text">
+        <p class="label f">Promoción en venta · San Agustín, Alicante</p>
+        <h2 id="ifach-h">Residencial Ifach</h2>
+        <p class="lead">Solo 12 viviendas en calle Calpe 18, con garaje, trastero, piscina, solárium y club social incluidos.</p>
+        <p class="price"><span>Desde</span> 230.000 €</p>
+        <div class="ctas"><a href="promocion-residencial-ifach.html" class="btn btn-primary">Ver viviendas disponibles <span class="arr" aria-hidden="true">→</span></a></div>
       </div>
     </div>
   </section>
 
-  {METODO.replace('<p class="pledges-note">El precio solo cambia si tú decides cambiar el proyecto, y siempre con un anexo firmado antes de ejecutarlo.</p>', '<p class="pledges-note">El precio solo cambia si tú decides cambiar el proyecto, y siempre con un anexo firmado antes de ejecutarlo. <a href="nosotros.html#metodo" style="color:#7FCDBE;font-weight:700">Conoce cómo trabajamos →</a></p>')}
-  {PH}
+  <section class="section tight" style="padding-top:0" id="proyectos" aria-labelledby="proj-h">
+    <div class="wrap">
+      {head('Trabajos recientes', 'Cada casa cuenta <em>su propia historia.</em>')}
+      <div class="work-grid three">{''.join(work_card(w) for w in recent[:3])}</div>
+      <p style="margin-top:36px"><a href="trabajos.html" class="btn btn-ghost">Ver los {len(WORKS)} trabajos <span class="arr" aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
   <section class="px-band px" aria-labelledby="pxb-h">
     {img(BY['piscina-desbordante-con-spa-jf']['fotos'][0], '', 'px-bg')}
     <div class="wrap px-band-in">
       <p class="label f">Desde 1990</p>
       <h2 id="pxb-h">Más de 30 años construyendo. <em>Más de 500 piscinas.</em></h2>
       <p class="lead">De Servicasa a Vacheron Projects: viviendas, reformas, locales comerciales y piscinas en toda España, con el mismo oficio de siempre.</p>
-      <div class="ctas"><a href="nosotros.html" class="btn btn-primary">Conoce nuestra historia <span class="arr" aria-hidden="true">→</span></a></div>
+      <div class="ctas"><a href="contacto.html" class="btn btn-primary">Empezar mi proyecto <span class="arr" aria-hidden="true">→</span></a><a href="nosotros.html" class="btn btn-ghost-light">Nuestra historia</a></div>
     </div>
   </section>
-  <section class="section" id="proyectos" aria-labelledby="proj-h" style="padding-top:0">
-    <div class="wrap">
-      {head('Trabajos recientes', 'Cada casa cuenta <em>su propia historia.</em>', 'Reformas, viviendas, piscinas y locales que ya hemos entregado.')}
-      <div class="work-grid three">{''.join(work_card(w) for w in recent)}</div>
-      <p style="margin-top:48px"><a href="trabajos.html" class="btn btn-ghost">Ver los {len(WORKS)} trabajos <span class="arr" aria-hidden="true">→</span></a></p>
-    </div>
-  </section>
-  {SOCIAL}
-  {FAQ_HOME}
-  {CONTACT_SECTION}
 '''
 page('index.html', 'Vacheron Projects', 'Diseñamos y construimos viviendas unifamiliares, reformas integrales y piscinas en toda España. Oficinas en Albacete y Alicante.', 'inicio', home, home=True)
 
@@ -913,7 +880,8 @@ body = contact + f'''<section class="section"><div class="wrap split">
     <article><p class="label">Sede central</p><h3>Albacete</h3><p>Marqués de Villores, 34<br>02003 Albacete</p><p><b>967 50 25 44</b><br>Fax 967 50 30 69</p><p><b>info@vacheronprojects.com</b></p><p><a class="link" href="{MAPS_AB}" target="_blank" rel="noopener">Cómo llegar en Google Maps</a></p></article>
     <article><p class="label">Oficina y venta de Residencial Ifach</p><h3>Alicante</h3><p>Colón, 21<br>03001 Alicante</p><p><b>628 06 05 60 · 608 58 37 66</b></p><p><a class="link" href="{WA}" target="_blank" rel="noopener">Escribir por WhatsApp</a></p><p><a class="link" href="{MAPS_AL}" target="_blank" rel="noopener">Cómo llegar en Google Maps</a></p></article>
   </div><p class="note">Lunes a viernes · 9:00–19:00. Visitas con cita previa.</p></div>
-</div></section>'''
+</div></section>
+{FAQ_HOME}'''
 page('contacto.html', 'Contacto', 'Cuéntanos tu proyecto. Oficinas en Albacete (Marqués de Villores, 34) y Alicante (Colón, 21).', 'contacto', body)
 
 # ======================================================================
