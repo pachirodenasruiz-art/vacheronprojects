@@ -136,8 +136,7 @@ var NET_NAMES={instagram:"Instagram",facebook:"Facebook",linkedin:"LinkedIn",x:"
       var r=im.parentNode.getBoundingClientRect();
       var p=(r.top+r.height/2-vh/2)/(vh/2+r.height/2);          // -1 entrando ... 1 saliendo
       p=Math.max(-1,Math.min(1,p));
-      var k=im.classList.contains('px-bg')?(mobile?.12:.17):(mobile?.07:.11);
-      im.style.setProperty('--px-y',(-p*im.offsetHeight*k).toFixed(1)+'px');
+      im.style.setProperty('--px-y',(-p*im.offsetHeight*(mobile?.04:.06)).toFixed(1)+'px');
     });
   }
   function onScroll(){if(!ticking&&!reduce.matches){ticking=true;requestAnimationFrame(update);}}
