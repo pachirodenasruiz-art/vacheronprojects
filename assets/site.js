@@ -123,28 +123,3 @@ var NET_NAMES={instagram:"Instagram",facebook:"Facebook",linkedin:"LinkedIn",x:"
     b.addEventListener('click',function(){var n=b.dataset.unit.slice(-2),r=document.getElementById('u'+n);if(r)r.checked=true;});
   });
 })();
-
-/* ===== Parallax de respaldo (solo si el navegador no admite animation-timeline) ===== */
-(function(){
-  var items=[].slice.call(document.querySelectorAll('.px > img'));
-  if(!items.length||(window.CSS&&CSS.supports&&CSS.supports('animation-timeline: view()')))return;
-  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)'),visible=new Set(),ticking=false;
-  function update(){
-    ticking=false;
-    var vh=window.innerHeight,mobile=window.innerWidth<=700;
-    visible.forEach(function(im){
-      var r=im.parentNode.getBoundingClientRect();
-      var p=(r.top+r.height/2-vh/2)/(vh/2+r.height/2);          // -1 entrando ... 1 saliendo
-      p=Math.max(-1,Math.min(1,p));
-      im.style.setProperty('--px-y',(-p*im.offsetHeight*(mobile?.04:.06)).toFixed(1)+'px');
-    });
-  }
-  function onScroll(){if(!ticking&&!reduce.matches){ticking=true;requestAnimationFrame(update);}}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?visible.add(e.target):visible.delete(e.target);});onScroll();},{rootMargin:'100px 0px'});
-  items.forEach(function(im){io.observe(im);});
-  window.addEventListener('scroll',onScroll,{passive:true});
-  window.addEventListener('resize',onScroll,{passive:true});
-  reduce.addEventListener&&reduce.addEventListener('change',function(){
-    if(reduce.matches)items.forEach(function(im){im.style.removeProperty('--px-y');});else onScroll();
-  });
-})();
