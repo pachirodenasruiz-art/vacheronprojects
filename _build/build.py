@@ -328,7 +328,7 @@ def phero(crumbs, h1, lead, cta=None, image=None, label=None):
     c = ''
     if cta:
         c = '<div class="ctas">' + ''.join(f'<a href="{u}" class="btn {k}"{" target=\"_blank\" rel=\"noopener\"" if u.startswith("http") else ""}>{t}</a>' for t, u, k in cta) + '</div>'
-    fig = f'<div class="wrap pfig">{image}</div>' if image else ''
+    fig = f'<div class="wrap pfig"><div class="px">{image}</div></div>' if image else ''
     lab = f'<p class="label f" style="grid-column:1/-1">{label}</p>' if label else ''
     return f'''<section class="phero">
   <div class="wrap">
@@ -416,7 +416,7 @@ home = f'''
       </div>
     </div>
     <div class="wrap hero-figure hero-photo">
-      {img(hero_w['fotos'][0], 'Casa Kimun, vivienda unifamiliar en Albacete', lazy=False)}
+      <div class="px">{img(hero_w['fotos'][0], 'Casa Kimun, vivienda unifamiliar en Albacete', lazy=False)}</div>
       <a class="figcap" href="{hero_w['url']}">CASA KIMUN · VIVIENDA UNIFAMILIAR · ALBACETE →</a>
     </div>
   </section>
@@ -425,7 +425,7 @@ home = f'''
 
   <section class="section" aria-labelledby="ifach-h">
     <div class="wrap promo-band">
-      <a class="promo-img" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Fachada de Residencial Ifach, calle Calpe 18, Alicante')}<span class="badge">En venta</span></a>
+      <a class="promo-img px" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Fachada de Residencial Ifach, calle Calpe 18, Alicante')}<span class="badge">En venta</span></a>
       <div class="promo-text">
         <p class="label f">Promoción en venta · San Agustín, Alicante</p>
         <h2 id="ifach-h">Residencial Ifach</h2>
@@ -497,6 +497,15 @@ home = f'''
 
   {METODO.replace('<p class="pledges-note">El precio solo cambia si tú decides cambiar el proyecto, y siempre con un anexo firmado antes de ejecutarlo.</p>', '<p class="pledges-note">El precio solo cambia si tú decides cambiar el proyecto, y siempre con un anexo firmado antes de ejecutarlo. <a href="nosotros.html#metodo" style="color:#7FCDBE;font-weight:700">Conoce cómo trabajamos →</a></p>')}
   {PH}
+  <section class="px-band px" aria-labelledby="pxb-h">
+    {img(BY['piscina-desbordante-con-spa-jf']['fotos'][0], '', 'px-bg')}
+    <div class="wrap px-band-in">
+      <p class="label f">Desde 1990</p>
+      <h2 id="pxb-h">Más de 30 años construyendo. <em>Más de 500 piscinas.</em></h2>
+      <p class="lead">De Servicasa a Vacheron Projects: viviendas, reformas, locales comerciales y piscinas en toda España, con el mismo oficio de siempre.</p>
+      <div class="ctas"><a href="nosotros.html" class="btn btn-primary">Conoce nuestra historia <span class="arr" aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
   <section class="section" id="proyectos" aria-labelledby="proj-h" style="padding-top:0">
     <div class="wrap">
       {head('Trabajos recientes', 'Cada casa cuenta <em>su propia historia.</em>', 'Reformas, viviendas, piscinas y locales que ya hemos entregado.')}
@@ -625,7 +634,7 @@ for slug, name, group, short in SERVICES:
     body += f'''<section class="section"><div class="wrap split"><div class="a"><p class="label f">Cómo lo hacemos</p><h2>{t}</h2></div><div class="b prose">{''.join(f'<p>{p}</p>' for p in ps)}</div></div></section>'''
     if slug == 'promocion-inmobiliaria':
         body += f'''<section class="section" style="padding-top:0"><div class="wrap promo-band">
-      <a class="promo-img" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Residencial Ifach')}<span class="badge">En venta</span></a>
+      <a class="promo-img px" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Residencial Ifach')}<span class="badge">En venta</span></a>
       <div class="promo-text"><p class="label f">En comercialización</p><h2>Residencial Ifach</h2><p class="lead">12 viviendas en San Agustín, Alicante. Estudios y pisos de 2 y 3 dormitorios con garaje y trastero.</p><p class="price"><span>Desde</span> 230.000 €</p><div class="ctas"><a href="promocion-residencial-ifach.html" class="btn btn-primary">Ver la promoción <span class="arr" aria-hidden="true">→</span></a></div></div>
     </div></section>'''
     body += f'''<section class="section" style="padding-top:0"><div class="wrap">{head('Lo que ganas', 'Por qué elegir <em>Vacheron.</em>')}
@@ -871,7 +880,7 @@ body = phero([('Inversores', None)], 'Invertir en vivienda <em>bien construida.<
 body += f'''<section class="section"><div class="wrap">{head('Por qué Vacheron', 'Control del proceso, <em>de principio a fin.</em>', 'Como promotores y constructores a la vez, controlamos los dos riesgos que más afectan a una promoción: el coste y el plazo.')}
 <div class="benefits"><div class="benefit"><h3>Promotor y constructor</h3><p>Sin márgenes intermedios ni dependencia de constructoras externas.</p></div><div class="benefit"><h3>Trayectoria</h3><p>Desde 1990 en construcción, y promociones como Santa Fiora (Albacete) y Residencial Ifach (Alicante).</p></div><div class="benefit"><h3>Transparencia</h3><p>Información periódica del avance de obra, costes y comercialización.</p></div></div></div></section>
 <section class="section" style="padding-top:0"><div class="wrap promo-band">
-  <a class="promo-img" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Residencial Ifach')}<span class="badge">En venta</span></a>
+  <a class="promo-img px" href="promocion-residencial-ifach.html">{ifimg('fachada', 'Residencial Ifach')}<span class="badge">En venta</span></a>
   <div class="promo-text"><p class="label f">Promoción en curso</p><h2>Residencial Ifach</h2><p class="lead">12 viviendas en San Agustín, Alicante, con zonas comunes y aerotermia.</p><div class="ctas"><a href="promocion-residencial-ifach.html" class="btn btn-ghost">Ver la promoción <span class="arr" aria-hidden="true">→</span></a></div></div>
 </div></section>
 <section class="section" style="padding-top:0"><div class="wrap">{head('Cómo trabajamos con inversores', 'Un proceso claro <em>y documentado.</em>')}
